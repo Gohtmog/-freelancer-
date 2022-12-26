@@ -63,7 +63,7 @@ public class CV {
 
 	@Override
 	public String toString() {
-		return "CV [id=" + id + ", description=" + description + ", candidat=" + candidat + "]";
+		return "CV [id=" + id + ", description=" + description + ", candidat=" + candidat.toString() + "]";
 	}
 
 }
