@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CVController {
-
+	private int count= 0;
 	private static String url = "tcp://194.206.91.85:61616";
 
 	@Autowired
@@ -87,8 +87,9 @@ public class CVController {
 
 		JsonObject CVObject = new JsonObject();
 		CVObject.put("CV", CVJSON);
-
-		try (FileWriter file = new FileWriter(filename)) {
+	
+		String adresse = "/pff freelancer freelancer/inputfolder/envoi" + count + ".txt";
+		try (FileWriter file = new FileWriter(adresse)) {
 			String output = CVObject.toJson().toString();
 			file.write(output);
 			file.flush();

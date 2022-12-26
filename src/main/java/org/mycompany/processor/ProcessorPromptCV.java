@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
 import org.mycompany.controller.CVController;
 import org.mycompany.controller.CandidatController;
 import org.mycompany.model.CV;
