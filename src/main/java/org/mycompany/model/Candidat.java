@@ -30,7 +30,7 @@ public class Candidat {
 	private List<Projet> listeProjets;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "T_Test_Candidat_Associations", joinColumns = @JoinColumn(name = "idNote"), inverseJoinColumns = @JoinColumn(name = "idCandidat"))
+	@JoinTable(name = "T_Test_Candidat_Associations", joinColumns = @JoinColumn(name = "idTest"), inverseJoinColumns = @JoinColumn(name = "idCandidat"))
 	private List<Test> listeTest;
 
 	@OneToMany(cascade = CascadeType.ALL)

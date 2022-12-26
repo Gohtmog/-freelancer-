@@ -27,7 +27,7 @@ public class ProcessorPromptCV implements Processor {
 		int nouvelID = listeCV.size() + 1;
 
 		System.out.println("Rentrez le corps de votre CV svp");
-		String corpsCV = scan.next();
+		String corpsCV = scan.nextLine();
 
 		System.out.println("Quel est votre identifiant de candidat svp ?");
 		int idC = scan.nextInt();
@@ -35,7 +35,7 @@ public class ProcessorPromptCV implements Processor {
 
 		CV cv = new CV(nouvelID, corpsCV, cand);
 
-		exchange.getIn().setBody(cv);
+		exchange.getIn().setBody(cv.toString());
 		System.out.println("On a bien défini le message comme étant " + cv.toString());
 	}
 }
