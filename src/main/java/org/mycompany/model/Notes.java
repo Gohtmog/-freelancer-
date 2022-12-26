@@ -19,8 +19,8 @@ import org.springframework.stereotype.Component;
 public class Notes {
 
 	@Id
-	int id;
-	int note;
+	private int id;
+	private int note;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idCandidat")

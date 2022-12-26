@@ -19,18 +19,18 @@ import org.springframework.stereotype.Component;
 public class Candidat {
 
 	@Id
-	int id;
-	String nom;
-	String prenom;
+	private int id;
+	private String nom;
+	private String prenom;
 
-	int moyNotes;
+	private int moyNotes;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "T_Projet_Candidat_Associations", joinColumns = @JoinColumn(name = "idProjet"), inverseJoinColumns = @JoinColumn(name = "idcandidat"))
+	@JoinTable(name = "T_Projet_Candidat_Associations", joinColumns = @JoinColumn(name = "idProjet"), inverseJoinColumns = @JoinColumn(name = "idCandidat"))
 	private List<Projet> listeProjets;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "T_Test_Candidat_Associations", joinColumns = @JoinColumn(name = "idNote"), inverseJoinColumns = @JoinColumn(name = "idcandidat"))
+	@JoinTable(name = "T_Test_Candidat_Associations", joinColumns = @JoinColumn(name = "idNote"), inverseJoinColumns = @JoinColumn(name = "idCandidat"))
 	private List<Test> listeTest;
 
 	@OneToMany(cascade = CascadeType.ALL)

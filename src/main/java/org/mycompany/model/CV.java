@@ -18,8 +18,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CV {
 	@Id
-	int id;
-	String description;
+	private int id;
+	private String description;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idCandidat")

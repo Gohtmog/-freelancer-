@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class Test {
 	@Id
-	int id;
-	String sujet;
-	Boolean valide;
+	private int id;
+	private String sujet;
+	private Boolean valide;
 	
 
 	@ManyToMany(cascade = CascadeType.ALL)
