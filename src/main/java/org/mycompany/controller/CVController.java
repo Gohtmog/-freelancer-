@@ -76,9 +76,9 @@ public class CVController {
 		context.stop();
 	}
 
-	@GetMapping("/CVToJSON/{id}/{filename}")
-	public void factureToJSON(@PathVariable int id, @PathVariable String filename) {
-		CV cv = icr.findById(id).get();
+	@GetMapping("/CVToJSON/{filename}")
+	public void factureToJSON(@RequestBody CV cv, @PathVariable String filename) {
+//		CV cv = icr.findById(id).get();
 
 		JsonObject CVJSON = new JsonObject();
 		CVJSON.put("id", cv.getId());
