@@ -26,11 +26,12 @@ public class Candidat {
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "T_Projet_Candidat_Associations", joinColumns = @JoinColumn(name = "idProjet"), inverseJoinColumns = @JoinColumn(name = "idcandidat"))
-	private List<Projet> ListeNotes;
+	private List<Projet> listeProjets;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "T_Test_Candidat_Associations", joinColumns = @JoinColumn(name = "idNote"), inverseJoinColumns = @JoinColumn(name = "idcandidat"))
+	@JoinTable(name = "T_Test_Candidat_Associations", joinColumns = @JoinColumn(name = "idNote"), inverseJoinColumns = @JoinColumn(name = "idCandidat"))
 	private List<Test> listeCV;
+	
 	
 	
 }
