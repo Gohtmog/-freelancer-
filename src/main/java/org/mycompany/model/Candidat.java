@@ -27,7 +27,7 @@ public class Candidat {
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "T_Projet_Candidat_Associations", joinColumns = @JoinColumn(name = "idProjet"), inverseJoinColumns = @JoinColumn(name = "idcandidat"))
-	private List<Projet> ListeProjets;
+	private List<Projet> listeProjets;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "T_Test_Candidat_Associations", joinColumns = @JoinColumn(name = "idNote"), inverseJoinColumns = @JoinColumn(name = "idcandidat"))
@@ -65,7 +65,7 @@ public class Candidat {
 			moyNotes = moyNotes / count;
 		}
 		moyNote = moyNotes;
-		ListeProjet = listeProjet;
+		this.listeProjets = listeProjet;
 		this.listeTest = listeTest;
 		this.listeCV = listeCV;
 		this.listeNotes = listeNotes2;
@@ -105,11 +105,11 @@ public class Candidat {
 	}
 
 	public List<Projet> getListeProjet() {
-		return ListeProjet;
+		return listeProjets;
 	}
 
 	public void setListeProjet(List<Projet> listeProjet) {
-		ListeProjet = listeProjet;
+		listeProjets = listeProjet;
 	}
 
 	public List<Test> getListeTest() {
@@ -140,7 +140,7 @@ public class Candidat {
 	@Override
 	public String toString() {
 		return "Candidat [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", moyNotes=" + moyNotes
-				+ ", ListeProjet=" + ListeProjet + ", listeTest=" + listeTest + ", listeCV=" + listeCV + ", listeNotes="
+				+ ", ListeProjet=" + listeProjets + ", listeTest=" + listeTest + ", listeCV=" + listeCV + ", listeNotes="
 				+ listeNotes + "]";
 	}
 
