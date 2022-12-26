@@ -29,11 +29,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-jackson</artifactId>
-			<version>2.14.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-spring-boot-starter</artifactId>
 			<version>2.23.2.fuse-7_11_0-00037-redhat-00001</version>
 		</dependency>
