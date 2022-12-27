@@ -1,9 +1,18 @@
 package org.mycompany.controller;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jms.ConnectionFactory;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.camel.CamelContext;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.component.jms.JmsComponent;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.json.simple.JsonObject;
+import org.mycompany.model.Notes;
 import org.mycompany.model.Projet;
 import org.mycompany.repo.IProjetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProjetController {
+	private int count = 0;
+	private static String url = "tcp://194.206.91.85:61616";
 
 	@Autowired
 	IProjetRepository ier;
+	
+	@Autowired
+	ProducerTemplate producerTemplate;
 
 	@Autowired
 	EntrepriseController eco;
@@ -58,6 +72,32 @@ public class ProjetController {
 		}).orElseGet(() -> {
 			return ier.save(newProjet);
 		});
+	}
+	
+	@GetMapping("/lancerRouteProjet")
+	public void lanceRoute() throws Exception {
+		CamelContext context = new DefaultCamelContext();
+		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+		connectionFactory.createConnection("admin", "adaming2022");
+		context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+		context.start();
+		producerTemplate.sendBody("direct:startProjet", null);
+		context.stop();
+	}
+	
+	@GetMapping("/ProjetToJSON")
+	public void ProjetToJSONFile(@RequestBody Projet pro) {
+
+		JsonObject ProJSON = projetToJSON(pro);
+		String adresse = "inputProjet/envoiProjet" + count + ".json";
+
+		try (FileWriter file = new FileWriter(adresse)) {
+			String output = ProJSON.toJson().toString();
+			file.write(output);
+			file.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String projetToJSONString(Projet pro) {

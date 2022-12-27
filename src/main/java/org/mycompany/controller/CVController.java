@@ -95,14 +95,14 @@ public class CVController {
 		});
 	}
 
-	@GetMapping("/lancerRoute")
+	@GetMapping("/lancerRouteCV")
 	public void lanceRoute() throws Exception {
 		CamelContext context = new DefaultCamelContext();
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
 		connectionFactory.createConnection("admin", "adaming2022");
 		context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
 		context.start();
-		producerTemplate.sendBody("direct:start", null);
+		producerTemplate.sendBody("direct:startCV", null);
 		context.stop();
 	}
 
@@ -115,7 +115,7 @@ public class CVController {
 		CVJSON.put("description", cv.getDescription());
 		CVJSON.put("candidat", cco.candidatToJSON(cv.getCandidat()));
 
-		String adresse = "inputCV/envoi" + count + ".json";
+		String adresse = "inputCV/envoiCV" + count + ".json";
 		try (FileWriter file = new FileWriter(adresse)) {
 			String output = CVJSON.toJson().toString();
 			file.write(output);
