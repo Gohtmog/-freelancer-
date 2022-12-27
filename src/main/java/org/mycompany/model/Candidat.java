@@ -34,11 +34,12 @@ public class Candidat {
 	private List<Test> listeTest;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idCV")
+//	@JoinColumn(name = "idCV")
 	private List<CV> listeCV;
-
+	
+	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idNotes")
+//	@JoinColumn(name = "idNotes")
 	private List<Notes> listeNotes;
 
 	public Candidat() {

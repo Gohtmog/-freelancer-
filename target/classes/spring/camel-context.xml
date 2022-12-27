@@ -9,7 +9,7 @@
             <log id="_log3" message="On a bien transformé le CV en JSON"/>
         </route>
         <route id="EnvoiJSONtoActiveMQ">
-            <from id="_from6" uri="file:inputfolder?noop=true"/>
+            <from id="_from6" uri="file:inputfolder"/>
             <to id="_to6" uri="jms:queue:EnvoiCV"/>
             <log id="_log34" message="Message envoyé à l'admin avec succès ! Le message était : ${body}"/>
         </route>

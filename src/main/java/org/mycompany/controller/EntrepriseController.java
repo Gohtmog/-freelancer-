@@ -2,6 +2,7 @@ package org.mycompany.controller;
 
 import java.util.List;
 
+import org.apache.camel.json.simple.JsonObject;
 import org.mycompany.model.Entreprise;
 import org.mycompany.repo.IEntrepriseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,19 @@ public class EntrepriseController {
 		}).orElseGet(() -> {
 			return ier.save(newEntreprise);
 		});
+	}
+
+	public String entrepriseToJSON(Entreprise ent) {
+		JsonObject entJSON = new JsonObject();
+		entJSON.put("id", ent.getId());
+		entJSON.put("nom", ent.getNom());
+		entJSON.put("capital", ent.getCapital());
+		entJSON.put("note", ent.getNote());
+		entJSON.put("taille", ent.getTaille());
+		entJSON.put("listeProjets", ent.getListeProjets());
+		entJSON.put("listeTests", ent.getListeTests());
+		String output = entJSON.toJson().toString();
+		return output;
 	}
 
 }

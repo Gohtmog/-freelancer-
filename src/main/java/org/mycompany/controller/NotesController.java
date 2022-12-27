@@ -2,6 +2,7 @@ package org.mycompany.controller;
 
 import java.util.List;
 
+import org.apache.camel.json.simple.JsonObject;
 import org.mycompany.model.Notes;
 import org.mycompany.repo.INotesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +51,12 @@ public class NotesController {
 			return ier.save(newNotes);
 		});
 	}
+	
+//	public String notesToJSON(Notes n) {
+//		JsonObject nj = new JsonObject();
+//		nj.put("id", n.getId());
+//		nj.put("note", n.getNote());
+//		nj.put("candidat", 
+//	}
 	
 }

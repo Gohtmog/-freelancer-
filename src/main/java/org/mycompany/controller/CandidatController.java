@@ -1,7 +1,9 @@
 package org.mycompany.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.camel.json.simple.JsonObject;
 import org.mycompany.model.Candidat;
 import org.mycompany.model.Projet;
 import org.mycompany.repo.ICandidatRepository;
@@ -55,6 +57,35 @@ public class CandidatController {
 		}).orElseGet(() -> {
 			return icr.save(newCandidat);
 		});
+	}
+
+	public String candidatToJSONString(Candidat can) {
+		JsonObject candidatJSON = new JsonObject();
+		candidatJSON.put("id", can.getId());
+		candidatJSON.put("nom", can.getNom());
+		candidatJSON.put("prenom", can.getPrenom());
+		candidatJSON.put("moyNotes", can.getMoyNotes());
+		candidatJSON.put("listeCV", "[]");
+		candidatJSON.put("listeProjets", "[]");
+		candidatJSON.put("listeTest", "[]");
+		candidatJSON.put("listeNotes", "[]");
+		String output = candidatJSON.toJson().toString();
+		return output;
+	}
+
+	public JsonObject candidatToJSON(Candidat can) {
+		JsonObject candidatJSON = new JsonObject();
+		candidatJSON.put("id", can.getId());
+		candidatJSON.put("nom", can.getNom());
+		candidatJSON.put("prenom", can.getPrenom());
+		candidatJSON.put("moyNotes", can.getMoyNotes());
+		candidatJSON.put("listeCV", new ArrayList<>());
+		candidatJSON.put("listeProjet", new ArrayList<>());
+		candidatJSON.put("listeTest", new ArrayList<>());
+		candidatJSON.put("listeNotes", new ArrayList<>());
+//		String output = candidatJSON.toJson().toString();
+//		System.out.println(candidatJSON);
+		return candidatJSON;
 	}
 
 }

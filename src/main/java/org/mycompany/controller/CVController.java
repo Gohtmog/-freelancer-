@@ -30,6 +30,9 @@ public class CVController {
 
 	private int count = 0;
 	private static String url = "tcp://194.206.91.85:61616";
+	
+	@Autowired
+	CandidatController cco;
 
 	@Autowired
 	ProducerTemplate producerTemplate;
@@ -84,20 +87,17 @@ public class CVController {
 	}
 
 	@GetMapping("/CVToJSON")
-	public void factureToJSON(@RequestBody CV cv) {
+	public void CVToJSON(@RequestBody CV cv) {
 //		CV cv = icr.findById(id).get();
 
 		JsonObject CVJSON = new JsonObject();
 		CVJSON.put("id", cv.getId());
 		CVJSON.put("description", cv.getDescription());
-		CVJSON.put("candidat", cv.getCandidat().toString());
-
-		JsonObject CVObject = new JsonObject();
-		CVObject.put("CV", CVJSON);
+		CVJSON.put("candidat", cco.candidatToJSON(cv.getCandidat()));
 
 		String adresse = "inputfolder/envoi" + count + ".json";
 		try (FileWriter file = new FileWriter(adresse)) {
-			String output = CVObject.toJson().toString();
+			String output = CVJSON.toJson().toString();
 			file.write(output);
 			file.flush();
 		} catch (Exception e) {

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.mycompany.model.CV;
 import org.mycompany.model.Candidat;
+import org.mycompany.model.Entreprise;
+import org.mycompany.model.Notes;
 import org.mycompany.model.Projet;
 import org.mycompany.model.Test;
 import org.mycompany.repo.ICVRepository;
@@ -97,6 +99,68 @@ public class GeneralController {
 
 		candidat.setListeCV(lCV);
 		System.out.println("On a mis à jour CV et/ou candidat.");
+
+	}
+
+	public void lienNoteCandidat(Notes notes, Candidat candidat) {
+		List<Notes> lN = candidat.getListeNotes();
+
+		if (!(lN.contains(notes))) {
+			lN.add(notes);
+		} else {
+			System.out.println("La note est déjà enregistrée chez le candidat.");
+		}
+
+		if (notes.getCandidat() == null) {
+			notes.setCandidat(candidat);
+		} else {
+			System.out.println("Le candidat est déjà enregistré pour cette note.");
+		}
+
+		candidat.setListeNotes(lN);
+		System.out.println("On a mis à jour notes et/ou candidat.");
+
+	}
+
+	public void lienTestEntreprise(Test test, Entreprise ent) {
+		List<Test> lT = ent.getListeTests();
+		List<Entreprise> lE = test.getListeEntreprises();
+
+		if (!(lT.contains(test))) {
+			lT.add(test);
+		} else {
+			System.out.println("Le test est déjà enregistré pour cette entreprise.");
+		}
+
+		if (!(lE.contains(ent))) {
+			lE.add(ent);
+		} else {
+			System.out.println("L'entreprise est déjà enregistrée pour ce test.");
+		}
+
+		ent.setListeTests(lT);
+		test.setListeEntreprises(lE);
+		System.out.println("On a mis à jour test et/ou entreprise.");
+
+	}
+	
+	public void lienProjetEntreprise(Projet pro, Entreprise ent) {
+		List<Projet> lP = ent.getListeProjets();
+
+		if (!(lP.contains(pro))) {
+			lP.add(pro);
+		} else {
+			System.out.println("Le projet est déjà enregistré pour cette entreprise.");
+		}
+
+		if (pro.getEntreprise() == null) {
+			pro.setEntreprise(ent);
+		} else {
+			System.out.println("L'entreprise est déjà enregistrée pour ce projet.");
+		}
+
+		ent.setListeProjets(lP);
+		System.out.println("On a mis à jour projet et/ou entreprise.");
 
 	}
 
