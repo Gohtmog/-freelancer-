@@ -12,28 +12,28 @@ import org.springframework.stereotype.Component;
 @Entity
 @Table
 @Component
-public class Notes {
+public class NotesEntreprise {
 
 	@Id
 	private int id;
 	private int note;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idCandidat")
-	private Candidat Candidat;
+	@JoinColumn(name = "idEntreprise")
+	private Entreprise Entreprise;
 
 	
 	
 	
-	public Notes() {
+	public NotesEntreprise() {
 		super();
 	}
 
-	public Notes(int id, int note, Candidat Candidat) {
+	public NotesEntreprise(int id, int note, Entreprise Entreprise) {
 		super();
 		this.id = id;
 		this.note = note;
-		this.Candidat = Candidat;
+		this.Entreprise = Entreprise;
 	}
 
 	public int getId() {
@@ -52,17 +52,17 @@ public class Notes {
 		this.note = note;
 	}
 
-	public Candidat getCandidat() {
-		return Candidat;
+	public Entreprise getEntreprise() {
+		return Entreprise;
 	}
 
-	public void setCandidat(Candidat Candidat) {
-		this.Candidat = Candidat;
+	public void setEntreprise(Entreprise Entreprise) {
+		this.Entreprise = Entreprise;
 	}
 
 	
 	@Override
 	public String toString() {
-		return "Notes [id=" + id + ", note=" + note + ", Candidat=" + Candidat + "]";
+		return "Notes [id=" + id + ", note=" + note + ", Entreprise=" + Entreprise + "]";
 	}
 }

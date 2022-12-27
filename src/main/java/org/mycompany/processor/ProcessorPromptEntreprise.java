@@ -4,20 +4,20 @@ import java.util.Scanner;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.mycompany.controller.CVController;
+import org.mycompany.controller.EntrepriseController;
 import org.mycompany.controller.CandidatController;
-import org.mycompany.model.CV;
+import org.mycompany.model.Entreprise;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class ProcessorPromptCV implements Processor {
+public class ProcessorPromptEntreprise implements Processor {
 
 	@Autowired
-	CVController cvController;
+	EntrepriseController EntrepriseController;
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		CV cv = cvController.promptCV();
-		cvController.CVToJSONFile(cv);
+		Entreprise entreprise = EntrepriseController.promptEntreprise();
+		EntrepriseController.EntrepriseToJSONFile(entreprise);
 		System.out.println("Fin du process");
 	}
 }
