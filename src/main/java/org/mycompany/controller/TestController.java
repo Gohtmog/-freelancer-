@@ -3,6 +3,7 @@ package org.mycompany.controller;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.jms.ConnectionFactory;
 
@@ -12,6 +13,9 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.json.simple.JsonObject;
+import org.mycompany.model.Candidat;
+import org.mycompany.model.Entreprise;
+import org.mycompany.model.NotesEntreprise;
 import org.mycompany.model.Projet;
 import org.mycompany.model.Test;
 import org.mycompany.repo.ITestRepository;
@@ -28,12 +32,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 	private int count = 0;
 	private static String url = "tcp://194.206.91.85:61616";
+	Scanner scan = new Scanner(System.in);
 
 	@Autowired
 	ITestRepository itr;
-	
+
 	@Autowired
 	ProducerTemplate producerTemplate;
+	@Autowired
+	EntrepriseController eco;
+	@Autowired
+	CandidatController cco;
 
 	@GetMapping("/getTest/{id}")
 	public Test getTest(@PathVariable int id) {
@@ -68,7 +77,7 @@ public class TestController {
 			return itr.save(newTest);
 		});
 	}
-	
+
 	@GetMapping("/lancerRouteTest")
 	public void lanceRoute() throws Exception {
 		CamelContext context = new DefaultCamelContext();
@@ -116,4 +125,20 @@ public class TestController {
 		return tJSON;
 	}
 
+	public Test promptTest() {
+		List<Test> listeTest = this.getTests();
+		int nouvelID = listeTest.size() + 1;
+
+		System.out.println("Rentrez le sujet du test");
+		String sujet = scan.nextLine();
+
+		System.out.println("le candidat a il valide (boolean) ?");
+		Boolean valid = scan.nextBoolean();
+
+		List<Entreprise> entre = eco.getEntreprises();
+		List<Candidat> cand = cco.getCandidats();
+		Test te = new Test(nouvelID, sujet, valid, cand, entre);
+		return te;
+
+	}
 }
