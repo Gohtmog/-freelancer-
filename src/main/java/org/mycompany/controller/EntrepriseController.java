@@ -3,6 +3,7 @@ package org.mycompany.controller;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.jms.ConnectionFactory;
 
@@ -12,8 +13,10 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.json.simple.JsonObject;
-import org.mycompany.model.Candidat;
 import org.mycompany.model.Entreprise;
+import org.mycompany.model.NotesEntreprise;
+import org.mycompany.model.Projet;
+import org.mycompany.model.Test;
 import org.mycompany.repo.IEntrepriseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,10 +31,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class EntrepriseController {
 	private int count = 0;
 	private static String url = "tcp://194.206.91.85:61616";
+	Scanner scan = new Scanner(System.in);
 
 	@Autowired
 	IEntrepriseRepository ier;
-	
+
 	@Autowired
 	ProducerTemplate producerTemplate;
 
@@ -62,7 +66,7 @@ public class EntrepriseController {
 			Entreprise.setNom(newEntreprise.getNom());
 			Entreprise.setCapital(newEntreprise.getCapital());
 			Entreprise.setMoyNotes(newEntreprise.getMoyNotes());
-			Entreprise.setListeNotes(newEntreprise.getListeNotes());
+			Entreprise.setListeNotesEntreprise(newEntreprise.getListeNotesEntreprise());
 			Entreprise.setTaille(newEntreprise.getTaille());
 			Entreprise.setListeProjets(newEntreprise.getListeProjets());
 			Entreprise.setListeTests(newEntreprise.getListeTests());
@@ -71,7 +75,7 @@ public class EntrepriseController {
 			return ier.save(newEntreprise);
 		});
 	}
-	
+
 	@GetMapping("/lancerRouteEntreprise")
 	public void lanceRoute() throws Exception {
 		CamelContext context = new DefaultCamelContext();
@@ -82,7 +86,7 @@ public class EntrepriseController {
 		producerTemplate.sendBody("direct:startEntreprise", null);
 		context.stop();
 	}
-	
+
 	@GetMapping("/EntrepriseToJSON")
 	public void EntrepriseToJSONFile(@RequestBody Entreprise ent) {
 
@@ -105,7 +109,7 @@ public class EntrepriseController {
 		entJSON.put("capital", ent.getCapital());
 		entJSON.put("moyNotes", ent.getMoyNotes());
 		entJSON.put("taille", ent.getTaille());
-		entJSON.put("listeNotes", new ArrayList<>());
+		entJSON.put("listeNotesEntreprise", new ArrayList<>());
 		entJSON.put("listeProjets", new ArrayList<>());
 		entJSON.put("listeTests", new ArrayList<>());
 		String output = entJSON.toJson().toString();
@@ -118,11 +122,34 @@ public class EntrepriseController {
 		entJSON.put("nom", ent.getNom());
 		entJSON.put("capital", ent.getCapital());
 		entJSON.put("moyNotes", ent.getMoyNotes());
-		entJSON.put("listeNotes", new ArrayList<>());
+		entJSON.put("listeNotesEntreprise", new ArrayList<>());
 		entJSON.put("taille", ent.getTaille());
 		entJSON.put("listeProjets", new ArrayList<>());
 		entJSON.put("listeTests", new ArrayList<>());
 		return entJSON;
+	}
+
+	public Entreprise promptEntreprise() {
+		List<Entreprise> listeEntreprises = this.getEntreprises();
+		int nouvelID = listeEntreprises.size() + 1;
+
+		System.out.println("Rentrez le nom de votre entreprise svp : ");
+		String nom = scan.nextLine();
+
+		System.out.println("Combien de personnes comporte votre entreprise ?");
+		int taille = scan.nextInt();
+
+		System.out.println("Rentrez le capital de votre entreprise svp : ");
+		double capital = scan.nextDouble();
+
+		int moyNotes = 0;
+		List<NotesEntreprise> ln = new ArrayList<>();
+		List<Projet> lp = new ArrayList<>();
+		List<Test> lt = new ArrayList<>();
+
+		Entreprise ent = new Entreprise(nouvelID, nom, taille, capital, ln, lt, lp);
+
+		return ent;
 	}
 
 }
