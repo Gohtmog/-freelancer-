@@ -1,7 +1,9 @@
 package org.mycompany.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.camel.json.simple.JsonObject;
 import org.mycompany.model.Test;
 import org.mycompany.repo.ITestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,27 @@ public class TestController {
 		}).orElseGet(() -> {
 			return itr.save(newTest);
 		});
+	}
+
+	public String testToJsonString(Test test) {
+		JsonObject tJSON = new JsonObject();
+		tJSON.put("id", test.getId());
+		tJSON.put("sujet", test.getSujet());
+		tJSON.put("valide", test.getValide());
+		tJSON.put("listeCandidats", new ArrayList<>());
+		tJSON.put("listeEntreprises", new ArrayList<>());
+		String output = tJSON.toJson().toString();
+		return output;
+	}
+
+	public JsonObject testToJson(Test test) {
+		JsonObject tJSON = new JsonObject();
+		tJSON.put("id", test.getId());
+		tJSON.put("sujet", test.getSujet());
+		tJSON.put("valide", test.getValide());
+		tJSON.put("listeCandidats", new ArrayList<>());
+		tJSON.put("listeEntreprises", new ArrayList<>());
+		return tJSON;
 	}
 
 }

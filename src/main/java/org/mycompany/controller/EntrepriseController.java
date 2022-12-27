@@ -1,5 +1,6 @@
 package org.mycompany.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.camel.json.simple.JsonObject;
@@ -56,17 +57,29 @@ public class EntrepriseController {
 		});
 	}
 
-	public String entrepriseToJSON(Entreprise ent) {
+	public String entrepriseToJSONString(Entreprise ent) {
 		JsonObject entJSON = new JsonObject();
 		entJSON.put("id", ent.getId());
 		entJSON.put("nom", ent.getNom());
 		entJSON.put("capital", ent.getCapital());
 		entJSON.put("note", ent.getNote());
 		entJSON.put("taille", ent.getTaille());
-		entJSON.put("listeProjets", ent.getListeProjets());
-		entJSON.put("listeTests", ent.getListeTests());
+		entJSON.put("listeProjets", new ArrayList<>());
+		entJSON.put("listeTests", new ArrayList<>());
 		String output = entJSON.toJson().toString();
 		return output;
+	}
+
+	public JsonObject entrepriseToJSON(Entreprise ent) {
+		JsonObject entJSON = new JsonObject();
+		entJSON.put("id", ent.getId());
+		entJSON.put("nom", ent.getNom());
+		entJSON.put("capital", ent.getCapital());
+		entJSON.put("note", ent.getNote());
+		entJSON.put("taille", ent.getTaille());
+		entJSON.put("listeProjets", new ArrayList<>());
+		entJSON.put("listeTests", new ArrayList<>());
+		return entJSON;
 	}
 
 }

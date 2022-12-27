@@ -15,6 +15,11 @@ import org.apache.camel.json.simple.JsonObject;
 import org.mycompany.model.CV;
 import org.mycompany.model.Candidat;
 import org.mycompany.repo.ICVRepository;
+import org.mycompany.repo.ICandidatRepository;
+import org.mycompany.repo.IEntrepriseRepository;
+import org.mycompany.repo.INotesRepository;
+import org.mycompany.repo.IProjetRepository;
+import org.mycompany.repo.ITestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,48 +35,63 @@ public class CVController {
 
 	private int count = 0;
 	private static String url = "tcp://194.206.91.85:61616";
-	
+
 	@Autowired
 	CandidatController cco;
 
 	@Autowired
 	ProducerTemplate producerTemplate;
-	
+
 	@Autowired
 	CandidatController cc;
 
 	@Autowired
-	ICVRepository icr;
+	ICandidatRepository icr;
+
+	@Autowired
+	IProjetRepository ipr;
+
+	@Autowired
+	ICVRepository icvr;
+
+	@Autowired
+	IEntrepriseRepository ier;
+
+	@Autowired
+	INotesRepository inr;
+
+	@Autowired
+	ITestRepository itr;
 
 	@GetMapping("/getCV/{id}")
 	public CV getCV(@PathVariable int id) {
-		return icr.findById(id).get();
+		return icvr.findById(id).get();
 	}
 
 	@GetMapping("/getCVs")
 	public List<CV> getCVs() {
-		return icr.findAll();
+		return icvr.findAll();
 	}
 
 	@PostMapping("/saveCV")
 	public void saveCV(@RequestBody CV cv) {
-		icr.save(cv);
+		icvr.save(cv);
 	}
 
 	@DeleteMapping("/deleteCV/{id}")
 	public void deleteCV(@PathVariable int id) {
-		icr.deleteById(id);
+		icvr.deleteById(id);
 	}
 
 	@PutMapping("/updateCV{id}")
 	public CV updateCV(@RequestBody CV newCV, @PathVariable int id) {
-		return icr.findById(id).map(CV -> {
+		return icvr.findById(id).map(CV -> {
 			CV.setId(newCV.getId());
 			CV.setDescription(newCV.getDescription());
 			CV.setCandidat(newCV.getCandidat());
-			return icr.save(CV);
+			return icvr.save(CV);
 		}).orElseGet(() -> {
-			return icr.save(newCV);
+			return icvr.save(newCV);
 		});
 	}
 
@@ -87,7 +107,7 @@ public class CVController {
 	}
 
 	@GetMapping("/CVToJSON")
-	public void CVToJSON(@RequestBody CV cv) {
+	public void CVToJSONFile(@RequestBody CV cv) {
 //		CV cv = icr.findById(id).get();
 
 		JsonObject CVJSON = new JsonObject();
@@ -104,7 +124,25 @@ public class CVController {
 			e.printStackTrace();
 		}
 	}
-// /pff freelancer freelancer
+
+	public JsonObject CVToJSON(CV cv) {
+		JsonObject CVJSON = new JsonObject();
+		CVJSON.put("id", cv.getId());
+		CVJSON.put("description", cv.getDescription());
+		CVJSON.put("candidat", cco.candidatToJSON(cv.getCandidat()));
+		return CVJSON;
+
+	}
+
+	public String CVToJSONString(CV cv) {
+		JsonObject CVJSON = new JsonObject();
+		CVJSON.put("id", cv.getId());
+		CVJSON.put("description", cv.getDescription());
+		CVJSON.put("candidat", cco.candidatToJSON(cv.getCandidat()));
+		return CVJSON.toJson().toString();
+
+	}
+
 	public CV promptCV() {
 		List<CV> listeCV = this.getCVs();
 		int nouvelID = listeCV.size() + 1;

@@ -6,7 +6,12 @@ import java.util.List;
 import org.apache.camel.json.simple.JsonObject;
 import org.mycompany.model.Candidat;
 import org.mycompany.model.Projet;
+import org.mycompany.repo.ICVRepository;
 import org.mycompany.repo.ICandidatRepository;
+import org.mycompany.repo.IEntrepriseRepository;
+import org.mycompany.repo.INotesRepository;
+import org.mycompany.repo.IProjetRepository;
+import org.mycompany.repo.ITestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +26,21 @@ public class CandidatController {
 
 	@Autowired
 	ICandidatRepository icr;
+
+	@Autowired
+	IProjetRepository ipr;
+
+	@Autowired
+	ICVRepository icvr;
+
+	@Autowired
+	IEntrepriseRepository ier;
+
+	@Autowired
+	INotesRepository inr;
+
+	@Autowired
+	ITestRepository itr;
 
 	@GetMapping("/getCandidat/{id}")
 	public Candidat getCandidat(@PathVariable int id) {
