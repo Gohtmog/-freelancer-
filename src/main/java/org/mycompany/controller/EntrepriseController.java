@@ -47,7 +47,8 @@ public class EntrepriseController {
 			Entreprise.setId(newEntreprise.getId());
 			Entreprise.setNom(newEntreprise.getNom());
 			Entreprise.setCapital(newEntreprise.getCapital());
-			Entreprise.setNote(newEntreprise.getNote());
+			Entreprise.setMoyNotes(newEntreprise.getMoyNotes());
+			Entreprise.setListeNotes(newEntreprise.getListeNotes());
 			Entreprise.setTaille(newEntreprise.getTaille());
 			Entreprise.setListeProjets(newEntreprise.getListeProjets());
 			Entreprise.setListeTests(newEntreprise.getListeTests());
@@ -62,8 +63,9 @@ public class EntrepriseController {
 		entJSON.put("id", ent.getId());
 		entJSON.put("nom", ent.getNom());
 		entJSON.put("capital", ent.getCapital());
-		entJSON.put("note", ent.getNote());
+		entJSON.put("moyNotes", ent.getMoyNotes());
 		entJSON.put("taille", ent.getTaille());
+		entJSON.put("listeNotes", new ArrayList<>());
 		entJSON.put("listeProjets", new ArrayList<>());
 		entJSON.put("listeTests", new ArrayList<>());
 		String output = entJSON.toJson().toString();
@@ -75,7 +77,8 @@ public class EntrepriseController {
 		entJSON.put("id", ent.getId());
 		entJSON.put("nom", ent.getNom());
 		entJSON.put("capital", ent.getCapital());
-		entJSON.put("note", ent.getNote());
+		entJSON.put("moyNotes", ent.getMoyNotes());
+		entJSON.put("listeNotes", new ArrayList<>());
 		entJSON.put("taille", ent.getTaille());
 		entJSON.put("listeProjets", new ArrayList<>());
 		entJSON.put("listeTests", new ArrayList<>());
