@@ -3,6 +3,7 @@ package org.mycompany.controller;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.jms.ConnectionFactory;
 
@@ -14,7 +15,9 @@ import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.json.simple.JsonObject;
 import org.mycompany.model.CV;
 import org.mycompany.model.Candidat;
+import org.mycompany.model.Notes;
 import org.mycompany.model.Projet;
+import org.mycompany.model.Test;
 import org.mycompany.repo.ICVRepository;
 import org.mycompany.repo.ICandidatRepository;
 import org.mycompany.repo.IEntrepriseRepository;
@@ -32,10 +35,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CandidatController {
-
+	Scanner scan = new Scanner(System.in);
 	private int count = 0;
 	private static String url = "tcp://194.206.91.85:61616";
 
+	@Autowired
+	ProjetController pc;
+	
+	@Autowired
+	TestController tc;
+	
+	@Autowired
+	CVController cc;
+	
+	@Autowired
+	NotesController nc;
+	
 	@Autowired
 	ICandidatRepository icr;
 	
@@ -148,5 +163,27 @@ public class CandidatController {
 //		System.out.println(candidatJSON);
 		return candidatJSON;
 	}
+	public Candidat promptCandidat() {
+		List<Candidat> listeCA = this.getCandidats();
+		int nouvelID = listeCA.size() + 1;
 
+		System.out.println("Rentrez le nom de votre Candidat svp");
+		String nom = scan.nextLine();
+		System.out.println("Rentrez le prenom de votre Candidat svp");
+		String pren = scan.nextLine();
+
+		System.out.println("Quel est votre identifiant de candidat svp ?");
+		int idC = scan.nextInt();
+		
+		List<Projet> pro = pc.getProjets();
+		List<Test> test = tc.getTests();
+		List<CV> cv = cc.getCVs();
+		List<Notes> no = nc.getNotess();
+//		ublic Candidat(int id, String nom, String prenom, List<Projet> listeProjet, List<Test> listeTest, List<CV> listeCV,
+//				List<Notes> listeNotes2) {
+		Candidat ca = new Candidat(nouvelID, nom, pren, pro, test, cv, no);
+		
+		return ca;
+	}
+	
 }

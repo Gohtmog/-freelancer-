@@ -2,6 +2,7 @@ package org.mycompany.controller;
 
 import java.io.FileWriter;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.jms.ConnectionFactory;
 
@@ -11,6 +12,8 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.json.simple.JsonObject;
+import org.mycompany.model.CV;
+import org.mycompany.model.Candidat;
 import org.mycompany.model.Entreprise;
 import org.mycompany.model.Notes;
 import org.mycompany.repo.ICVRepository;
@@ -32,6 +35,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotesController {
 	private int count = 0;
 	private static String url = "tcp://194.206.91.85:61616";
+	Scanner scan = new Scanner(System.in);
+
+	@Autowired
+	CandidatController cc;
 
 	@Autowired
 	ICandidatRepository icr;
@@ -132,5 +139,18 @@ public class NotesController {
 		nj.put("candidat", cco.candidatToJSON(n.getCandidat()));
 		return nj;
 	}
+	public Notes promptNotes() {
+		List<Notes> listeNotes = this.getNotess();
+		int nouvelID = listeNotes.size() + 1;
 
+		System.out.println("Rentrez la notes(sur 5) svp");
+		int note = scan.nextInt();
+
+		System.out.println("Quel est l'identifiant du candidat svp ?");
+		int idC = scan.nextInt();
+		Candidat cand = cc.getCandidat(idC);
+
+		Notes no = new Notes(nouvelID, note, cand);
+		return no;
+	}
 }
