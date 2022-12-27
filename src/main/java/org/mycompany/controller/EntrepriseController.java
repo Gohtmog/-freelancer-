@@ -1,9 +1,18 @@
 package org.mycompany.controller;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jms.ConnectionFactory;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.camel.CamelContext;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.component.jms.JmsComponent;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.json.simple.JsonObject;
+import org.mycompany.model.Candidat;
 import org.mycompany.model.Entreprise;
 import org.mycompany.repo.IEntrepriseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class EntrepriseController {
+	private int count = 0;
+	private static String url = "tcp://194.206.91.85:61616";
 
 	@Autowired
 	IEntrepriseRepository ier;
+	
+	@Autowired
+	ProducerTemplate producerTemplate;
 
 	@GetMapping("/getEntreprise/{id}")
 	public Entreprise getEntreprise(@PathVariable int id) {
@@ -56,6 +70,32 @@ public class EntrepriseController {
 		}).orElseGet(() -> {
 			return ier.save(newEntreprise);
 		});
+	}
+	
+	@GetMapping("/lancerRouteEntreprise")
+	public void lanceRoute() throws Exception {
+		CamelContext context = new DefaultCamelContext();
+		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+		connectionFactory.createConnection("admin", "adaming2022");
+		context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+		context.start();
+		producerTemplate.sendBody("direct:startEntreprise", null);
+		context.stop();
+	}
+	
+	@GetMapping("/EntrepriseToJSON")
+	public void EntrepriseToJSONFile(@RequestBody Entreprise ent) {
+
+		JsonObject EntJSON = entrepriseToJSON(ent);
+		String adresse = "inputEntreprise/envoiEntreprise" + count + ".json";
+
+		try (FileWriter file = new FileWriter(adresse)) {
+			String output = EntJSON.toJson().toString();
+			file.write(output);
+			file.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String entrepriseToJSONString(Entreprise ent) {

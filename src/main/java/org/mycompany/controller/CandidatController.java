@@ -1,9 +1,18 @@
 package org.mycompany.controller;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jms.ConnectionFactory;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.camel.CamelContext;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.component.jms.JmsComponent;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.json.simple.JsonObject;
+import org.mycompany.model.CV;
 import org.mycompany.model.Candidat;
 import org.mycompany.model.Projet;
 import org.mycompany.repo.ICVRepository;
@@ -24,8 +33,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CandidatController {
 
+	private int count = 0;
+	private static String url = "tcp://194.206.91.85:61616";
+
 	@Autowired
 	ICandidatRepository icr;
+	
+	@Autowired
+	ProducerTemplate producerTemplate;
 
 	@Autowired
 	IProjetRepository ipr;
@@ -77,6 +92,32 @@ public class CandidatController {
 		}).orElseGet(() -> {
 			return icr.save(newCandidat);
 		});
+	}
+	
+	@GetMapping("/lancerRouteCandidat")
+	public void lanceRoute() throws Exception {
+		CamelContext context = new DefaultCamelContext();
+		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+		connectionFactory.createConnection("admin", "adaming2022");
+		context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+		context.start();
+		producerTemplate.sendBody("direct:startCandidat", null);
+		context.stop();
+	}
+
+	@GetMapping("/CandidatToJSON")
+	public void CandidatToJSONFile(@RequestBody Candidat can) {
+
+		JsonObject CanJSON = candidatToJSON(can);
+		String adresse = "inputCandidat/envoiCandidat" + count + ".json";
+
+		try (FileWriter file = new FileWriter(adresse)) {
+			String output = CanJSON.toJson().toString();
+			file.write(output);
+			file.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String candidatToJSONString(Candidat can) {

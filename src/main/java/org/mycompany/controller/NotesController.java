@@ -1,8 +1,17 @@
 package org.mycompany.controller;
 
+import java.io.FileWriter;
 import java.util.List;
 
+import javax.jms.ConnectionFactory;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.camel.CamelContext;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.component.jms.JmsComponent;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.json.simple.JsonObject;
+import org.mycompany.model.Entreprise;
 import org.mycompany.model.Notes;
 import org.mycompany.repo.ICVRepository;
 import org.mycompany.repo.ICandidatRepository;
@@ -21,9 +30,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class NotesController {
+	private int count = 0;
+	private static String url = "tcp://194.206.91.85:61616";
 
 	@Autowired
 	ICandidatRepository icr;
+	
+	@Autowired
+	ProducerTemplate producerTemplate;
 
 	@Autowired
 	IProjetRepository ipr;
@@ -74,6 +88,33 @@ public class NotesController {
 			return inr.save(newNotes);
 		});
 	}
+	
+	@GetMapping("/lancerRouteNotes")
+	public void lanceRoute() throws Exception {
+		CamelContext context = new DefaultCamelContext();
+		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+		connectionFactory.createConnection("admin", "adaming2022");
+		context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+		context.start();
+		producerTemplate.sendBody("direct:startNotes", null);
+		context.stop();
+	}
+	
+	@GetMapping("/NotesToJSON")
+	public void NotesToJSONFile(@RequestBody Notes notes) {
+
+		JsonObject NotesJSON = notesToJSON(notes);
+		String adresse = "inputNotes/envoiNotes" + count + ".json";
+
+		try (FileWriter file = new FileWriter(adresse)) {
+			String output = NotesJSON.toJson().toString();
+			file.write(output);
+			file.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 	public String notesToJSONString(Notes n) {
 		JsonObject nj = new JsonObject();

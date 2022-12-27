@@ -1,9 +1,18 @@
 package org.mycompany.controller;
 
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jms.ConnectionFactory;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.camel.CamelContext;
+import org.apache.camel.ProducerTemplate;
+import org.apache.camel.component.jms.JmsComponent;
+import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.json.simple.JsonObject;
+import org.mycompany.model.Projet;
 import org.mycompany.model.Test;
 import org.mycompany.repo.ITestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestController {
+	private int count = 0;
+	private static String url = "tcp://194.206.91.85:61616";
 
 	@Autowired
 	ITestRepository itr;
+	
+	@Autowired
+	ProducerTemplate producerTemplate;
 
 	@GetMapping("/getTest/{id}")
 	public Test getTest(@PathVariable int id) {
@@ -53,6 +67,32 @@ public class TestController {
 		}).orElseGet(() -> {
 			return itr.save(newTest);
 		});
+	}
+	
+	@GetMapping("/lancerRouteTest")
+	public void lanceRoute() throws Exception {
+		CamelContext context = new DefaultCamelContext();
+		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
+		connectionFactory.createConnection("admin", "adaming2022");
+		context.addComponent("jms", JmsComponent.jmsComponentAutoAcknowledge(connectionFactory));
+		context.start();
+		producerTemplate.sendBody("direct:startTest", null);
+		context.stop();
+	}
+
+	@GetMapping("/TestToJSON")
+	public void TestToJSONFile(@RequestBody Test test) {
+
+		JsonObject TestJSON = testToJson(test);
+		String adresse = "inputTest/envoiTest" + count + ".json";
+
+		try (FileWriter file = new FileWriter(adresse)) {
+			String output = TestJSON.toJson().toString();
+			file.write(output);
+			file.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String testToJsonString(Test test) {
