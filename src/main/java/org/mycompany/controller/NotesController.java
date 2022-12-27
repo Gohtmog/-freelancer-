@@ -2,8 +2,14 @@ package org.mycompany.controller;
 
 import java.util.List;
 
+import org.apache.camel.json.simple.JsonObject;
 import org.mycompany.model.Notes;
+import org.mycompany.repo.ICVRepository;
+import org.mycompany.repo.ICandidatRepository;
+import org.mycompany.repo.IEntrepriseRepository;
 import org.mycompany.repo.INotesRepository;
+import org.mycompany.repo.IProjetRepository;
+import org.mycompany.repo.ITestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,38 +23,73 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotesController {
 
 	@Autowired
-	INotesRepository ier;
+	ICandidatRepository icr;
+
+	@Autowired
+	IProjetRepository ipr;
+
+	@Autowired
+	ICVRepository icvr;
+
+	@Autowired
+	IEntrepriseRepository ier;
+
+	@Autowired
+	INotesRepository inr;
+
+	@Autowired
+	ITestRepository itr;
+
+	@Autowired
+	CandidatController cco;
 
 	@GetMapping("/getNotes/{id}")
 	public Notes getNotes(@PathVariable int id) {
-		return ier.findById(id).get();
+		return inr.findById(id).get();
 	}
 
 	@GetMapping("/getAllNotes")
 	public List<Notes> getNotess() {
-		return ier.findAll();
+		return inr.findAll();
 	}
 
 	@PostMapping("/saveNotes")
 	public void saveNotes(@RequestBody Notes notes) {
-		ier.save(notes);
+		inr.save(notes);
 	}
 
 	@DeleteMapping("/deleteNotes/{id}")
 	public void deleteNotes(@PathVariable int id) {
-		ier.deleteById(id);
+		inr.deleteById(id);
 	}
 
 	@PutMapping("/updateNotes{id}")
 	public Notes updateNotes(@RequestBody Notes newNotes, @PathVariable int id) {
-		return ier.findById(id).map(Notes -> {
+		return inr.findById(id).map(Notes -> {
 			Notes.setId(newNotes.getId());
 			Notes.setNote(newNotes.getNote());
 			Notes.setCandidat(newNotes.getCandidat());
-			return ier.save(Notes);
+			return inr.save(Notes);
 		}).orElseGet(() -> {
-			return ier.save(newNotes);
+			return inr.save(newNotes);
 		});
 	}
-	
+
+	public String notesToJSONString(Notes n) {
+		JsonObject nj = new JsonObject();
+		nj.put("id", n.getId());
+		nj.put("note", n.getNote());
+		nj.put("candidat", cco.candidatToJSON(n.getCandidat()));
+		String output = nj.toJson().toString();
+		return output;
+	}
+
+	public JsonObject notesToJSON(Notes n) {
+		JsonObject nj = new JsonObject();
+		nj.put("id", n.getId());
+		nj.put("note", n.getNote());
+		nj.put("candidat", cco.candidatToJSON(n.getCandidat()));
+		return nj;
+	}
+
 }

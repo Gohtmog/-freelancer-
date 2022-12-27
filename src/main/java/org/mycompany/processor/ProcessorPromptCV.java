@@ -22,7 +22,7 @@ public class ProcessorPromptCV implements Processor {
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		CV cv = cvController.promptCV();
-		cvController.factureToJSON(cv);
+		cvController.CVToJSONFile(cv);
 		System.out.println("Fin du process");
 	}
 }

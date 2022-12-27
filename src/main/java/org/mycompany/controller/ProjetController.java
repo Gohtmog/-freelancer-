@@ -1,7 +1,9 @@
 package org.mycompany.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.camel.json.simple.JsonObject;
 import org.mycompany.model.Projet;
 import org.mycompany.repo.IProjetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class ProjetController {
 
 	@Autowired
 	IProjetRepository ier;
+
+	@Autowired
+	EntrepriseController eco;
 
 	@GetMapping("/getProjet/{id}")
 	public Projet getProjet(@PathVariable int id) {
@@ -53,6 +58,31 @@ public class ProjetController {
 		}).orElseGet(() -> {
 			return ier.save(newProjet);
 		});
+	}
+
+	public String projetToJSONString(Projet pro) {
+		JsonObject proJSON = new JsonObject();
+		proJSON.put("id", pro.getId());
+		proJSON.put("intitule", pro.getIntitule());
+		proJSON.put("salaire", pro.getSalaire());
+		proJSON.put("duree", pro.getDuree());
+		proJSON.put("tailleEquipe", pro.getTailleEquipe());
+		proJSON.put("entreprise", eco.entrepriseToJSON(pro.getEntreprise()));
+		proJSON.put("listeCandidats", new ArrayList<>());
+		String output = proJSON.toJson().toString();
+		return output;
+	}
+
+	public JsonObject projetToJSON(Projet pro) {
+		JsonObject proJSON = new JsonObject();
+		proJSON.put("id", pro.getId());
+		proJSON.put("intitule", pro.getIntitule());
+		proJSON.put("salaire", pro.getSalaire());
+		proJSON.put("duree", pro.getDuree());
+		proJSON.put("tailleEquipe", pro.getTailleEquipe());
+		proJSON.put("entreprise", eco.entrepriseToJSON(pro.getEntreprise()));
+		proJSON.put("listeCandidats", new ArrayList<>());
+		return proJSON;
 	}
 
 }

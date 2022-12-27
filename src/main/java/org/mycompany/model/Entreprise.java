@@ -24,7 +24,12 @@ public class Entreprise {
 	private String nom;
 	private int taille;
 	private double capital;
-	private double note;
+
+	private int moyNotes;
+
+	@OneToMany(cascade = CascadeType.ALL)
+//	@JoinColumn(name = "idNotes")
+	private List<Notes> listeNotes;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "T_Test_Entreprise_Associations", joinColumns = @JoinColumn(name = "idTest"), inverseJoinColumns = @JoinColumn(name = "idEntreprise"))
@@ -34,25 +39,38 @@ public class Entreprise {
 	@JoinColumn(name = "idEntreprise")
 	private List<Projet> listeProjets = new ArrayList<>();
 
-	public Entreprise(int id, String nom, int taille, double capital, double note, List<Test> listeTests,
+	public Entreprise(int id, String nom, int taille, double capital, List<Notes> listeNotes2, List<Test> listeTests,
 			List<Projet> listeProjets) {
 		super();
 		this.id = id;
 		this.nom = nom;
 		this.taille = taille;
 		this.capital = capital;
-		this.note = note;
+		int count = 1;
+		int moyNote = 0;
+		for (Notes notes : listeNotes2) {
+			if (notes.getCandidat().getId() == id) {
+				moyNotes += notes.getNote();
+				count++;
+			}
+		}
+		if (count == 1) {
+			moyNotes = 0;
+		} else {
+			moyNotes = moyNotes / count;
+		}
+		moyNote = moyNotes;
 		this.listeTests = listeTests;
 		this.listeProjets = listeProjets;
+		this.listeNotes = listeNotes2;
 	}
 
-	public Entreprise(int id, String nom, int taille, double capital, double note) {
+	public Entreprise(int id, String nom, int taille, double capital) {
 		super();
 		this.id = id;
 		this.nom = nom;
 		this.taille = taille;
 		this.capital = capital;
-		this.note = note;
 	}
 
 	public Entreprise() {
@@ -91,12 +109,20 @@ public class Entreprise {
 		this.capital = capital;
 	}
 
-	public double getNote() {
-		return note;
+	public int getMoyNotes() {
+		return moyNotes;
 	}
 
-	public void setNote(double note) {
-		this.note = note;
+	public void setMoyNotes(int moyNotes) {
+		this.moyNotes = moyNotes;
+	}
+
+	public List<Notes> getListeNotes() {
+		return listeNotes;
+	}
+
+	public void setListeNotes(List<Notes> listeNotes) {
+		this.listeNotes = listeNotes;
 	}
 
 	public List<Test> getListeTests() {
@@ -117,8 +143,9 @@ public class Entreprise {
 
 	@Override
 	public String toString() {
-		return "Entreprise [id=" + id + ", nom=" + nom + ", taille=" + taille + ", capital=" + capital + ", note="
-				+ note + ", listeTests=" + listeTests + ", listeProjets=" + listeProjets + "]";
+		return "Entreprise [id=" + id + ", nom=" + nom + ", taille=" + taille + ", capital=" + capital + ", moyNotes="
+				+ moyNotes + ", listeNotes=" + listeNotes + ", listeTests=" + listeTests + ", listeProjets="
+				+ listeProjets + "]";
 	}
 
 }
