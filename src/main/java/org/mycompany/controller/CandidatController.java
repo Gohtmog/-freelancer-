@@ -3,6 +3,7 @@ package org.mycompany.controller;
 import java.util.List;
 
 import org.mycompany.model.Candidat;
+import org.mycompany.model.Projet;
 import org.mycompany.repo.ICandidatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
