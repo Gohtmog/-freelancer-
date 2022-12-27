@@ -3,6 +3,7 @@ package org.mycompany.controller;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.jms.ConnectionFactory;
 
@@ -12,8 +13,11 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.json.simple.JsonObject;
+import org.mycompany.model.Candidat;
+import org.mycompany.model.Entreprise;
 import org.mycompany.model.Notes;
 import org.mycompany.model.Projet;
+import org.mycompany.repo.IEntrepriseRepository;
 import org.mycompany.repo.IProjetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,12 +30,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProjetController {
+	Scanner scan = new Scanner(System.in);
 	private int count = 0;
 	private static String url = "tcp://194.206.91.85:61616";
 
 	@Autowired
 	IProjetRepository ier;
-	
+
+	@Autowired
+	IEntrepriseRepository ienr;
+
 	@Autowired
 	ProducerTemplate producerTemplate;
 
@@ -73,7 +81,7 @@ public class ProjetController {
 			return ier.save(newProjet);
 		});
 	}
-	
+
 	@GetMapping("/lancerRouteProjet")
 	public void lanceRoute() throws Exception {
 		CamelContext context = new DefaultCamelContext();
@@ -84,7 +92,7 @@ public class ProjetController {
 		producerTemplate.sendBody("direct:startProjet", null);
 		context.stop();
 	}
-	
+
 	@GetMapping("/ProjetToJSON")
 	public void ProjetToJSONFile(@RequestBody Projet pro) {
 
@@ -123,6 +131,33 @@ public class ProjetController {
 		proJSON.put("entreprise", eco.entrepriseToJSON(pro.getEntreprise()));
 		proJSON.put("listeCandidats", new ArrayList<>());
 		return proJSON;
+	}
+
+	public Projet promptProjet() {
+		List<Projet> listeProjets = this.getProjets();
+		int nouvelID = listeProjets.size() + 1;
+
+		System.out.println("Rentrez l'intitulé du projet svp : ");
+		String intitule = scan.nextLine();
+
+		System.out.println("Quel sera le salaire pour les collaborateurs ?");
+		double salaire = scan.nextDouble();
+
+		System.out.println("Quelle sera la durée du projet en semaines ?");
+		double duree = scan.nextInt();
+
+		System.out.println("Combien de collaborateurs sont requis ? ");
+		int tailleEquipe = scan.nextInt();
+
+		System.out.println("Quel est l'identifiant de l'entreprise menant le projet ?");
+		int idE = scan.nextInt();
+		Entreprise ent = ienr.findById(idE).get();
+
+		List<Candidat> lC = new ArrayList<>();
+
+		Projet pro = new Projet(idE, intitule, salaire, duree, tailleEquipe, ent, lC);
+
+		return pro;
 	}
 
 }

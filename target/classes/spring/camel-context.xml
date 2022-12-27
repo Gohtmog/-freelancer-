@@ -3,6 +3,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring-2.23.3.xsd">
     <bean class="org.mycompany.processor.ProcessorPromptCV" id="PromptCV"/>
     <bean class="org.mycompany.processor.ProcessorPromptCanditat" id="PromptCandidat"/>
+    <bean class="org.mycompany.processor.ProcessorPromptEntreprise" id="PromptEntreprise"/>
+    <bean class="org.mycompany.processor.ProcessorPromptNotes" id="PromptNotes"/>
+    <bean class="org.mycompany.processor.ProcessorPromptProjet" id="PromptProjet"/>
+    <bean class="org.mycompany.processor.ProcessorPromptTest" id="PromptTest"/>
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
         <route id="TransformationCandidatToJSON">
             <from id="_fromCA" uri="direct:startCandidat"/>
