@@ -115,7 +115,7 @@ public class CVController {
 		CVJSON.put("description", cv.getDescription());
 		CVJSON.put("candidat", cco.candidatToJSON(cv.getCandidat()));
 
-		String adresse = "inputfolder/envoi" + count + ".json";
+		String adresse = "inputCV/envoi" + count + ".json";
 		try (FileWriter file = new FileWriter(adresse)) {
 			String output = CVJSON.toJson().toString();
 			file.write(output);

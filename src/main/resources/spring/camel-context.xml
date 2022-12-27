@@ -2,16 +2,57 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       https://camel.apache.org/schema/spring/camel-spring-2.23.3.xsd">
     <bean class="org.mycompany.processor.ProcessorPromptCV" id="PromptCV"/>
+    <bean class="org.mycompany.processor.ProcessorPromptCanditat" id="PromptCandidat"/>
     <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
-        <route id="TransformationCVtoJSON">
-            <from id="_from1" uri="direct:start"/>
-            <process id="_process1" ref="PromptCV"/>
-            <log id="_log3" message="On a bien transformé le CV en JSON"/>
+        <route id="TransformationCandidatToJSON">
+            <from id="_fromCA" uri="direct:startCandidat"/>
+            <process id="_processCA" ref="PromptCandidat"/>
+            <log id="_logCA" message="On a bien transformé le candidat en JSON"/>
         </route>
-        <route id="EnvoiJSONtoActiveMQ">
-            <from id="_from6" uri="file:inputfolder"/>
-            <to id="_to6" uri="jms:queue:EnvoiCV"/>
-            <log id="_log34" message="Message envoyé à l'admin avec succès ! Le message était : ${body}"/>
+        <route id="EnvoiCandidatJSONToActiveMQ">
+            <from id="_fromCa" uri="file:inputCandidat"/>
+            <to id="_toCa" uri="jms:queue:EnvoiCandidat"/>
+            <log id="_logCa" message="Candidat envoyé à l'admin avec succès ! Le message était : ${body}"/>
+        </route>
+        <route id="TransformationCVToJSON">
+            <from id="_fromCV" uri="direct:startCV"/>
+            <process id="_processCV" ref="PromptCV"/>
+            <log id="_logCV" message="On a bien transformé le CV en JSON"/>
+        </route>
+        <route id="EnvoiCVJSONToActiveMQ">
+            <from id="_fromCv" uri="file:inputCV"/>
+            <to id="_toCv" uri="jms:queue:EnvoiCV"/>
+            <log id="_logCv" message="CV envoyé à l'admin avec succès ! Le message était : ${body}"/>
+        </route>
+        <route id="TransformationEntrepriseToJSON">
+            <from id="_fromEntreprise" uri="direct:startEntreprise"/>
+            <process id="_processEntreprise" ref="PromptEntreprise"/>
+            <log id="_logEntreprise" message="On a bien transformé le Entreprise en JSON"/>
+        </route>
+        <route id="EnvoiEntrepriseJSONToActiveMQ">
+            <from id="_fromEn" uri="file:inputEntreprise"/>
+            <to id="_toEn" uri="jms:queue:EnvoiEntreprise"/>
+            <log id="_logEn" message="Entreprise envoyé à l'admin avec succès ! Le message était : ${body}"/>
+        </route>
+        <route id="TransformationNotesToJSON">
+            <from id="_fromNO" uri="direct:startNotes"/>
+            <process id="_processNO" ref="PromptNotes"/>
+            <log id="_logNO" message="On a bien transformé le Notes en JSON"/>
+        </route>
+        <route id="EnvoiNotesJSONToActiveMQ">
+            <from id="_fromNo" uri="file:inputNotes"/>
+            <to id="_toNo" uri="jms:queue:EnvoiNotes"/>
+            <log id="_logNo" message="Notes envoyé à l'admin avec succès ! Le message était : ${body}"/>
+        </route>
+        <route id="TransformationTestToJSON">
+            <from id="_fromTE" uri="direct:startTest"/>
+            <process id="_processTE" ref="PromptTest"/>
+            <log id="_logTE" message="On a bien transformé le Test en JSON"/>
+        </route>
+        <route id="EnvoiTestJSONToActiveMQ">
+            <from id="_fromTe" uri="file:inputTest"/>
+            <to id="_toTe" uri="jms:queue:EnvoiTest"/>
+            <log id="_logTe" message="Test envoyé à l'admin avec succès ! Le message était : ${body}"/>
         </route>
     </camelContext>
 </beans>
