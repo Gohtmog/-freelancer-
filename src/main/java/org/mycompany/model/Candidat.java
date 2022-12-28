@@ -33,15 +33,10 @@ public class Candidat {
 	@JoinTable(name = "T_Projet_Candidat_Associations", joinColumns = @JoinColumn(name = "idProjet"), inverseJoinColumns = @JoinColumn(name = "idCandidat"))
 	private List<Projet> listeProjets;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "T_Test_Candidat_Associations", joinColumns = @JoinColumn(name = "idTest"), inverseJoinColumns = @JoinColumn(name = "idCandidat"))
-	private List<Test> listeTest;
-
 	@OneToMany(cascade = CascadeType.ALL)
 //	@JoinColumn(name = "idCV")
 	private List<CV> listeCV;
-	
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
 //	@JoinColumn(name = "idNotes")
 	private List<Notes> listeNotes;
@@ -50,7 +45,7 @@ public class Candidat {
 		super();
 	}
 
-	public Candidat(int id, String nom, String prenom, List<Projet> listeProjet, List<Test> listeTest, List<CV> listeCV,
+	public Candidat(int id, String nom, String prenom, List<Projet> listeProjet, List<CV> listeCV,
 			List<Notes> listeNotes2) {
 		super();
 		this.id = id;
@@ -61,20 +56,19 @@ public class Candidat {
 		for (Notes notes : listeNotes2) {
 			if (notes.getCandidat().getId() == id) {
 				moyNotes += notes.getNote();
-			count++;
-		}
+				count++;
+			}
 		}
 		if (count == 1) {
-			moyNotes =  0;
+			moyNotes = 0;
 		} else {
 			moyNotes = moyNotes / count;
 		}
 		moyNote = moyNotes;
 		this.listeProjets = listeProjet;
-		this.listeTest = listeTest;
 		this.listeCV = listeCV;
 		this.listeNotes = listeNotes2;
-	
+
 	}
 
 	public int getId() {
@@ -117,14 +111,6 @@ public class Candidat {
 		listeProjets = listeProjet;
 	}
 
-	public List<Test> getListeTest() {
-		return listeTest;
-	}
-
-	public void setListeTest(List<Test> listeTest) {
-		this.listeTest = listeTest;
-	}
-
 	public List<CV> getListeCV() {
 		return listeCV;
 	}
@@ -132,7 +118,6 @@ public class Candidat {
 	public void setListeCV(List<CV> listeCV) {
 		this.listeCV = listeCV;
 	}
-
 
 	public List<Notes> getListeNotes() {
 		return listeNotes;
@@ -145,8 +130,7 @@ public class Candidat {
 	@Override
 	public String toString() {
 		return "Candidat [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", moyNotes=" + moyNotes
-				+ ", ListeProjet=" + listeProjets + ", listeTest=" + listeTest + ", listeCV=" + listeCV + ", listeNotes="
-				+ listeNotes + "]";
+				+ ", ListeProjet=" + listeProjets + ", listeCV=" + listeCV + ", listeNotes=" + listeNotes + "]";
 	}
 
 }
