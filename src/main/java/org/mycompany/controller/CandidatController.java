@@ -210,35 +210,35 @@ public class CandidatController {
 		String pren = scan.nextLine();
 
 		List<CV> listeCV = new ArrayList<>();
-		System.out.println("Souhaitez-vous ajouter un CV à ce candidat ? 1 pour oui, autre pour non.");
-		int selCV = scan.nextInt();
-		if (selCV == 1) {
-			do {
-				System.out.println("Quel est l'identifiant du CV en question ?");
-				int idCV = scan.nextInt();
-				CV cv = icvr.findById(idCV).get();
-				listeCV.add(cv);
-
-				System.out.println("Souhaitez-vous ajouter un autre CV à ce candidat ? 1 pour oui, autre pour non.");
-				selCV = scan.nextInt();
-			} while (selCV == 1);
-		}
+//		System.out.println("Souhaitez-vous ajouter un CV à ce candidat ? 1 pour oui, autre pour non.");
+//		int selCV = scan.nextInt();
+//		if (selCV == 1) {
+//			do {
+//				System.out.println("Quel est l'identifiant du CV en question ?");
+//				int idCV = scan.nextInt();
+//				CV cv = icvr.findById(idCV).get();
+//				listeCV.add(cv);
+//
+//				System.out.println("Souhaitez-vous ajouter un autre CV à ce candidat ? 1 pour oui, autre pour non.");
+//				selCV = scan.nextInt();
+//			} while (selCV == 1);
+//		}
 
 		List<Projet> listeProjets = new ArrayList<>();
-		System.out.println("Souhaitez-vous ajouter un projet à ce candidat ? 1 pour oui, autre pour non.");
-		int selPro = scan.nextInt();
-		if (selPro == 1) {
-			do {
-				System.out.println("Quel est l'identifiant du projet en question ?");
-				int idP = scan.nextInt();
-				Projet pro = ipr.findById(idP).get();
-				listeProjets.add(pro);
-
-				System.out
-						.println("Souhaitez-vous ajouter un autre projet à ce candidat ? 1 pour oui, autre pour non.");
-				selPro = scan.nextInt();
-			} while (selPro == 1);
-		}
+//		System.out.println("Souhaitez-vous ajouter un projet à ce candidat ? 1 pour oui, autre pour non.");
+//		int selPro = scan.nextInt();
+//		if (selPro == 1) {
+//			do {
+//				System.out.println("Quel est l'identifiant du projet en question ?");
+//				int idP = scan.nextInt();
+//				Projet pro = ipr.findById(idP).get();
+//				listeProjets.add(pro);
+//
+//				System.out
+//						.println("Souhaitez-vous ajouter un autre projet à ce candidat ? 1 pour oui, autre pour non.");
+//				selPro = scan.nextInt();
+//			} while (selPro == 1);
+//		}
 
 //		List<Test> listeTests = new ArrayList<>();
 //		System.out.println("Souhaitez-vous ajouter un test à ce candidat ? 1 pour oui, autre pour non.");
@@ -254,23 +254,24 @@ public class CandidatController {
 //		} while (selTest == 1);
 
 		List<Notes> listeNotes = new ArrayList<>();
-		System.out.println("Souhaitez-vous ajouter une note à ce candidat ? 1 pour oui, autre pour non.");
-		int selNote = scan.nextInt();
-		if (selNote == 1) {
-			do {
-				System.out.println("Quel est l'identifiant de la note en question ?");
-				int idN = scan.nextInt();
-				Notes note = inr.findById(idN).get();
-				listeNotes.add(note);
-
-				System.out.println("Souhaitez-vous ajouter une autre note à ce candidat ? 1 pour oui, autre pour non.");
-				selNote = scan.nextInt();
-			} while (selNote == 1);
-		}
-
-		System.out.println(listeCV);
-		System.out.println(listeProjets);
-		System.out.println(listeNotes);
+//		System.out.println("Souhaitez-vous ajouter une note à ce candidat ? 1 pour oui, autre pour non.");
+//		int selNote = scan.nextInt();
+//		if (selNote == 1) {
+//			do {
+//				System.out.println("Quel est l'identifiant de la note en question ?");
+//				int idN = scan.nextInt();
+//				Notes note = inr.findById(idN).get();
+//				listeNotes.add(note);
+//
+//				System.out.println("Souhaitez-vous ajouter une autre note à ce candidat ? 1 pour oui, autre pour non.");
+//				selNote = scan.nextInt();
+//			} while (selNote == 1);
+//		}
+		
+		System.out.println("test");
+//		System.out.println(listeCV);
+//		System.out.println(listeProjets);
+//		System.out.println(listeNotes);
 
 		Candidat ca = new Candidat(nouvelID, nom, pren, listeProjets, listeCV, listeNotes);
 		System.out.println(ca.toString());
