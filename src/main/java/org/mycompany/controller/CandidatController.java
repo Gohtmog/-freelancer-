@@ -275,7 +275,7 @@ public class CandidatController {
 
 		Candidat ca = new Candidat(nouvelID, nom, pren, listeProjets, listeCV, listeNotes);
 		System.out.println(ca.toString());
-
+		icr.save(ca);
 		return ca;
 	}
 

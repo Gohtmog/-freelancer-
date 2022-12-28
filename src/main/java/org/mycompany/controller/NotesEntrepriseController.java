@@ -156,6 +156,7 @@ public class NotesEntrepriseController {
 		Entreprise entre = eco.getEntreprise(idC);
 
 		NotesEntreprise ne = new NotesEntreprise(nouvelID, note, entre);
+		iner.save(ne);
 		return ne;
 	}
 

@@ -45,6 +45,7 @@ public class ProjetController {
 
 	@Autowired
 	EntrepriseController eco;
+	
 
 	@GetMapping("/getProjet/{id}")
 	public Projet getProjet(@PathVariable int id) {
@@ -116,7 +117,7 @@ public class ProjetController {
 		proJSON.put("duree", pro.getDuree());
 		proJSON.put("tailleEquipe", pro.getTailleEquipe());
 		proJSON.put("entreprise", eco.entrepriseToJSON(pro.getEntreprise()));
-		proJSON.put("listeCandidats", pro.getListeCandidats());
+		proJSON.put("listeCandidats", new ArrayList<>());
 		String output = proJSON.toJson().toString();
 		return output;
 	}
@@ -129,7 +130,7 @@ public class ProjetController {
 		proJSON.put("duree", pro.getDuree());
 		proJSON.put("tailleEquipe", pro.getTailleEquipe());
 		proJSON.put("entreprise", eco.entrepriseToJSON(pro.getEntreprise()));
-		proJSON.put("listeCandidats", pro.getListeCandidats());
+		proJSON.put("listeCandidats", new ArrayList<>());
 		return proJSON;
 	}
 
@@ -151,12 +152,14 @@ public class ProjetController {
 
 		System.out.println("Quel est l'identifiant de l'entreprise menant le projet ?");
 		int idE = scan.nextInt();
-		Entreprise ent = ienr.findById(idE).get();
+		Entreprise ent = eco.getEntreprise(idE);
+
 
 		List<Candidat> lC = new ArrayList<>();
 
-		Projet pro = new Projet(idE, intitule, salaire, duree, tailleEquipe, ent, lC);
-
+		Projet pro = new Projet(nouvelID, intitule, salaire, duree, tailleEquipe, ent, lC);
+		System.out.println(pro);
+		ier.save(pro);
 		return pro;
 	}
 

@@ -147,6 +147,7 @@ public class TestController {
 		Boolean valid = scan.nextBoolean();
 
 		Test te = new Test(nouvelID, sujet, valid, cand, ent);
+		itr.save(te);
 		return te;
 
 	}

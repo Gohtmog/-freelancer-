@@ -36,8 +36,8 @@ public class Entreprise {
 	private List<NotesEntreprise> listeNotesEntreprise;
 
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "idEntreprise")
-	private List<Projet> listeProjets = new ArrayList<>();
+//	@JoinColumn(name = "idEntreprise")
+	private List<Projet> listeProjets;
 
 	public Entreprise(int id, String nom, int taille, double capital, List<NotesEntreprise> listeNotes2,
 			List<Projet> listeProjets) {

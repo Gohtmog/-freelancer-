@@ -148,7 +148,7 @@ public class EntrepriseController {
 		List<Test> lt = new ArrayList<>();
 
 		Entreprise ent = new Entreprise(nouvelID, nom, taille, capital, ln, lp);
-
+		ier.save(ent);
 		return ent;
 	}
 

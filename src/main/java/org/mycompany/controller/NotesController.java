@@ -151,6 +151,7 @@ public class NotesController {
 		Candidat cand = cc.getCandidat(idC);
 
 		Notes no = new Notes(nouvelID, note, cand);
+		inr.save(no);
 		return no;
 	}
 }
