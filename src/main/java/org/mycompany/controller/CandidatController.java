@@ -33,6 +33,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bazaarvoice.jolt.modifier.function.Math.intSum;
+
 @RestController
 public class CandidatController {
 	Scanner scan = new Scanner(System.in);
@@ -172,13 +174,27 @@ public class CandidatController {
 		System.out.println("Rentrez le prenom de votre Candidat svp");
 		String pren = scan.nextLine();
 
-		System.out.println("Quel est votre identifiant de candidat svp ?");
-		int idC = scan.nextInt();
+//		System.out.println("Quel est votre identifiant de candidat svp ?");
+//		int idC = scan.nextInt();
+		
+//		List<String> listeCV = new ArrayList<>();
+//		System.out.println("Souhaitez-vous ajouter un CV à ce candidat ? 1 pour oui, autre pour non.");
+//		int selCV = scan.nextInt();
+//		do {
+//			System.out.println("Quel est l'identifiant du CV en question ?");
+//			int idCV = scan.nextInt();
+//			CV cv = icvr.findById(idCV).get();
+//			listeCV.add(cc.CVToJSONString(cv));
+//			
+//			System.out.println("Souhaitez-vous ajouter un autre CV à ce candidat ? 1 pour oui, autre pour non.");
+//			selCV = scan.nextInt();
+//		} while(selCV == 1);
+		
 		
 		List<Projet> pro = pc.getProjets();
 		List<Test> test = tc.getTests();
-		List<CV> cv = cc.getCVs();
 		List<Notes> no = nc.getNotess();
+		List<CV> cv = cc.getCVs();
 //		ublic Candidat(int id, String nom, String prenom, List<Projet> listeProjet, List<Test> listeTest, List<CV> listeCV,
 //				List<Notes> listeNotes2) {
 		Candidat ca = new Candidat(nouvelID, nom, pren, pro, test, cv, no);

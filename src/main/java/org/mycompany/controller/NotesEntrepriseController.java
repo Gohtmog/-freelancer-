@@ -115,7 +115,7 @@ public class NotesEntrepriseController {
 	public void NotesEntrepriseToJSONFile(@RequestBody NotesEntreprise notes) {
 
 		JsonObject NotesEntrepriseJSON = notesEntrepriseToJSON(notes);
-		String adresse = "inputNotes/envoiNotesEntreprise" + count + ".json";
+		String adresse = "inputNotesEntreprise/envoiNotesEntreprise" + count + ".json";
 
 		try (FileWriter file = new FileWriter(adresse)) {
 			String output = NotesEntrepriseJSON.toJson().toString();

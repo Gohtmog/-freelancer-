@@ -155,6 +155,7 @@ public class CVController {
 		Candidat cand = cc.getCandidat(idC);
 
 		CV cv = new CV(nouvelID, corpsCV, cand);
+		icvr.save(cv);
 		return cv;
 	}
 

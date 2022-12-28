@@ -1,7 +1,6 @@
 package org.mycompany.controller;
 
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,9 +14,9 @@ import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.json.simple.JsonObject;
 import org.mycompany.model.Candidat;
 import org.mycompany.model.Entreprise;
-import org.mycompany.model.NotesEntreprise;
-import org.mycompany.model.Projet;
 import org.mycompany.model.Test;
+import org.mycompany.repo.ICandidatRepository;
+import org.mycompany.repo.IEntrepriseRepository;
 import org.mycompany.repo.ITestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,6 +42,10 @@ public class TestController {
 	EntrepriseController eco;
 	@Autowired
 	CandidatController cco;
+	@Autowired
+	IEntrepriseRepository ier;
+	@Autowired
+	ICandidatRepository icr;
 
 	@GetMapping("/getTest/{id}")
 	public Test getTest(@PathVariable int id) {
@@ -70,8 +73,8 @@ public class TestController {
 			Test.setId(newTest.getId());
 			Test.setSujet(newTest.getSujet());
 			Test.setValide(newTest.getValide());
-			Test.setListeCandidats(newTest.getListeCandidats());
-			Test.setListeEntreprises(newTest.getListeEntreprises());
+			Test.setCandidat(newTest.getCandidat());
+			Test.setEntreprise(newTest.getEntreprise());
 			return itr.save(Test);
 		}).orElseGet(() -> {
 			return itr.save(newTest);
@@ -109,8 +112,8 @@ public class TestController {
 		tJSON.put("id", test.getId());
 		tJSON.put("sujet", test.getSujet());
 		tJSON.put("valide", test.getValide());
-		tJSON.put("listeCandidats", test.getListeCandidats());
-		tJSON.put("listeEntreprises", test.getListeEntreprises());
+		tJSON.put("candidat", test.getCandidat());
+		tJSON.put("entreprise", test.getEntreprise());
 		String output = tJSON.toJson().toString();
 		return output;
 	}
@@ -120,8 +123,8 @@ public class TestController {
 		tJSON.put("id", test.getId());
 		tJSON.put("sujet", test.getSujet());
 		tJSON.put("valide", test.getValide());
-		tJSON.put("listeCandidats", test.getListeCandidats());
-		tJSON.put("listeEntreprises", test.getListeEntreprises());
+		tJSON.put("candidat", test.getCandidat());
+		tJSON.put("entreprise", test.getEntreprise());
 		return tJSON;
 	}
 
@@ -132,12 +135,18 @@ public class TestController {
 		System.out.println("Rentrez le sujet du test");
 		String sujet = scan.nextLine();
 
+		System.out.println("Quel est l'ID de l'entreprise ?");
+		int idE = scan.nextInt();
+		Entreprise ent = ier.findById(idE).get();
+
+		System.out.println("Quel est l'ID du candidat ?");
+		int idC = scan.nextInt();
+		Candidat cand = icr.findById(idC).get();
+
 		System.out.println("le candidat a il valide (boolean) ?");
 		Boolean valid = scan.nextBoolean();
 
-		List<Entreprise> entre = eco.getEntreprises();
-		List<Candidat> cand = cco.getCandidats();
-		Test te = new Test(nouvelID, sujet, valid, cand, entre);
+		Test te = new Test(nouvelID, sujet, valid, cand, ent);
 		return te;
 
 	}

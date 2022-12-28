@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
@@ -23,30 +24,28 @@ public class Test {
 	private int id;
 	private String sujet;
 	private Boolean valide;
-	
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "T_Test_Candidat_Associations", joinColumns = @JoinColumn(name = "idCandidat"), inverseJoinColumns = @JoinColumn(name = "idTest"))
-	private List<Candidat> listeCandidats;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "idCandidat")
+	private Candidat candidat;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "T_Test_Entreprise_Associations", joinColumns = @JoinColumn(name = "idEntreprise"), inverseJoinColumns = @JoinColumn(name = "idTest"))
-	private List<Entreprise> listeEntreprises;
-
-	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "idEntreprise")
+	private Entreprise entreprise;
 
 	public Test() {
 		super();
 	}
-	public Test(int id, String sujet, Boolean valide, List<Candidat> listeCandidats,
-			List<Entreprise> listeEntreprises) {
+
+	public Test(int id, String sujet, Boolean valide, Candidat candidat, Entreprise entreprise) {
 		super();
 		this.id = id;
 		this.sujet = sujet;
 		this.valide = valide;
-		this.listeCandidats = listeCandidats;
-		this.listeEntreprises = listeEntreprises;
+		this.candidat = candidat;
+		this.entreprise = entreprise;
 	}
+
 	public int getId() {
 		return id;
 	}
@@ -71,27 +70,26 @@ public class Test {
 		this.valide = valide;
 	}
 
-	public List<Candidat> getListeCandidats() {
-		return listeCandidats;
+	public Candidat getCandidat() {
+		return candidat;
 	}
 
-	public void setListeCandidats(List<Candidat> listeCandidats) {
-		this.listeCandidats = listeCandidats;
+	public void setCandidat(Candidat candidat) {
+		this.candidat = candidat;
 	}
 
-	public List<Entreprise> getListeEntreprises() {
-		return listeEntreprises;
+	public Entreprise getEntreprise() {
+		return entreprise;
 	}
 
-	public void setListeEntreprises(List<Entreprise> listeEntreprises) {
-		this.listeEntreprises = listeEntreprises;
+	public void setEntreprise(Entreprise entreprise) {
+		this.entreprise = entreprise;
 	}
+
 	@Override
 	public String toString() {
-		return "Test [id=" + id + ", sujet=" + sujet + ", valide=" + valide + ", listeCandidats=" + listeCandidats
-				+ ", listeEntreprises=" + listeEntreprises + "]";
+		return "Test [id=" + id + ", sujet=" + sujet + ", valide=" + valide + ", candidat=" + candidat + ", entreprise="
+				+ entreprise + "]";
 	}
 
-	
-	
 }

@@ -60,27 +60,27 @@ public class GeneralController {
 
 	}
 
-	public void lienTestCandidat(Test test, Candidat candidat) {
-		List<Test> lT = candidat.getListeTest();
-		List<Candidat> lC = test.getListeCandidats();
-
-		if (!(lT.contains(test))) {
-			lT.add(test);
-		} else {
-			System.out.println("Le test est déjà enregistré chez le candidat.");
-		}
-
-		if (!(lC.contains(candidat))) {
-			lC.add(candidat);
-		} else {
-			System.out.println("Le candidat est déjà enregistré pour ce test.");
-		}
-
-		candidat.setListeTest(lT);
-		test.setListeCandidats(lC);
-		System.out.println("On a mis à jour test et/ou candidat.");
-
-	}
+//	public void lienTestCandidat(Test test, Candidat candidat) {
+//		List<Test> lT = candidat.getListeTest();
+//		Candidat cand = test.getCandidat();
+//
+//		if (!(lT.contains(test))) {
+//			lT.add(test);
+//		} else {
+//			System.out.println("Le test est déjà enregistré chez le candidat.");
+//		}
+//
+//		if (candidat.get == null) {
+//			lC.setCandidat(candidat);
+//		} else {
+//			System.out.println("Le candidat est déjà enregistré pour ce test.");
+//		}
+//
+//		candidat.setListeTest(lT);
+//		test.setCandidat(lC);
+//		System.out.println("On a mis à jour test et/ou candidat.");
+//
+//	}
 
 	public void lienCVCandidat(CV cv, Candidat candidat) {
 		List<CV> lCV = candidat.getListeCV();
@@ -122,27 +122,27 @@ public class GeneralController {
 
 	}
 
-	public void lienTestEntreprise(Test test, Entreprise ent) {
-		List<Test> lT = ent.getListeTests();
-		List<Entreprise> lE = test.getListeEntreprises();
-
-		if (!(lT.contains(test))) {
-			lT.add(test);
-		} else {
-			System.out.println("Le test est déjà enregistré pour cette entreprise.");
-		}
-
-		if (!(lE.contains(ent))) {
-			lE.add(ent);
-		} else {
-			System.out.println("L'entreprise est déjà enregistrée pour ce test.");
-		}
-
-		ent.setListeTests(lT);
-		test.setListeEntreprises(lE);
-		System.out.println("On a mis à jour test et/ou entreprise.");
-
-	}
+//	public void lienTestEntreprise(Test test, Entreprise ent) {
+//		List<Test> lT = ent.getListeTests();
+//		List<Entreprise> lE = test.getEntreprise();
+//
+//		if (!(lT.contains(test))) {
+//			lT.add(test);
+//		} else {
+//			System.out.println("Le test est déjà enregistré pour cette entreprise.");
+//		}
+//
+//		if (!(lE.contains(ent))) {
+//			lE.add(ent);
+//		} else {
+//			System.out.println("L'entreprise est déjà enregistrée pour ce test.");
+//		}
+//
+//		ent.setListeTests(lT);
+//		test.setListeEntreprises(lE);
+//		System.out.println("On a mis à jour test et/ou entreprise.");
+//
+//	}
 	
 	public void lienProjetEntreprise(Projet pro, Entreprise ent) {
 		List<Projet> lP = ent.getListeProjets();
