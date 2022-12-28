@@ -6,6 +6,7 @@
 	<bean class="org.mycompany.processor.ProcessorPromptNotes" id="PromptNotes" />
 	<bean class="org.mycompany.processor.ProcessorPromptProjet" id="PromptProjet" />
 	<bean class="org.mycompany.processor.ProcessorPromptTest" id="PromptTest" />
+		<bean class="org.mycompany.processor.ProcessorPromptNotesEntreprise" id="PromptNotesEntreprise" />
 	<camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
 		<route id="TransformationCandidatToJSON">
 			<from id="_fromCA" uri="direct:startCandidat" />
