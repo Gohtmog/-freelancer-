@@ -69,7 +69,7 @@ public class EntrepriseController {
 			Entreprise.setListeNotesEntreprise(newEntreprise.getListeNotesEntreprise());
 			Entreprise.setTaille(newEntreprise.getTaille());
 			Entreprise.setListeProjets(newEntreprise.getListeProjets());
-			Entreprise.setListeTests(newEntreprise.getListeTests());
+//			Entreprise.setListeTests(newEntreprise.getListeTests());
 			return ier.save(Entreprise);
 		}).orElseGet(() -> {
 			return ier.save(newEntreprise);
@@ -111,7 +111,7 @@ public class EntrepriseController {
 		entJSON.put("taille", ent.getTaille());
 		entJSON.put("listeNotesEntreprise", ent.getListeNotesEntreprise());
 		entJSON.put("listeProjets", ent.getListeProjets());
-		entJSON.put("listeTests", ent.getListeTests());
+//		entJSON.put("listeTests", ent.getListeTests());
 		String output = entJSON.toJson().toString();
 		return output;
 	}
@@ -125,7 +125,7 @@ public class EntrepriseController {
 		entJSON.put("listeNotesEntreprise", ent.getListeNotesEntreprise());
 		entJSON.put("taille", ent.getTaille());
 		entJSON.put("listeProjets", ent.getListeProjets());
-		entJSON.put("listeTests", ent.getListeTests());
+//		entJSON.put("listeTests", ent.getListeTests());
 		return entJSON;
 	}
 
@@ -147,7 +147,7 @@ public class EntrepriseController {
 		List<Projet> lp = new ArrayList<>();
 		List<Test> lt = new ArrayList<>();
 
-		Entreprise ent = new Entreprise(nouvelID, nom, taille, capital, ln, lt, lp);
+		Entreprise ent = new Entreprise(nouvelID, nom, taille, capital, ln, lp);
 
 		return ent;
 	}

@@ -43,19 +43,19 @@ public class CandidatController {
 
 	@Autowired
 	ProjetController pc;
-	
+
 	@Autowired
 	TestController tc;
-	
+
 	@Autowired
 	CVController cc;
-	
+
 	@Autowired
 	NotesController nc;
-	
+
 	@Autowired
 	ICandidatRepository icr;
-	
+
 	@Autowired
 	ProducerTemplate producerTemplate;
 
@@ -101,7 +101,7 @@ public class CandidatController {
 			Candidat.setNom(newCandidat.getNom());
 			Candidat.setPrenom(newCandidat.getPrenom());
 			Candidat.setMoyNotes(newCandidat.getMoyNotes());
-			Candidat.setListeTest(newCandidat.getListeTest());
+//			Candidat.setListeTest(newCandidat.getListeTest());
 			Candidat.setListeProjet(newCandidat.getListeProjet());
 			Candidat.setListeCV(newCandidat.getListeCV());
 			Candidat.setListeNotes(newCandidat.getListeNotes());
@@ -110,7 +110,7 @@ public class CandidatController {
 			return icr.save(newCandidat);
 		});
 	}
-	
+
 	@GetMapping("/lancerRouteCandidat")
 	public void lanceRoute() throws Exception {
 		CamelContext context = new DefaultCamelContext();
@@ -145,7 +145,7 @@ public class CandidatController {
 		candidatJSON.put("moyNotes", can.getMoyNotes());
 		candidatJSON.put("listeCV", can.getListeCV());
 		candidatJSON.put("listeProjets", can.getListeProjet());
-		candidatJSON.put("listeTest", can.getListeTest());
+//		candidatJSON.put("listeTest", can.getListeTest());
 		candidatJSON.put("listeNotes", can.getListeNotes());
 		String output = candidatJSON.toJson().toString();
 		return output;
@@ -157,14 +157,49 @@ public class CandidatController {
 		candidatJSON.put("nom", can.getNom());
 		candidatJSON.put("prenom", can.getPrenom());
 		candidatJSON.put("moyNotes", can.getMoyNotes());
-		candidatJSON.put("listeCV", can.getListeCV());
-		candidatJSON.put("listeProjet", can.getListeProjet());
-		candidatJSON.put("listeTest", can.getListeTest());
-		candidatJSON.put("listeNotes", can.getListeNotes());
+
+		List<CV> listeCV = can.getListeCV();
+		List<JsonObject> listeCVJSON = new ArrayList<>();
+		for (CV cv : listeCV) {
+
+			System.out.println("Passage dans la liste de CVs.");
+			JsonObject cvJSON = cc.CVToJSON(cv);
+			listeCVJSON.add(cvJSON);
+		}
+
+		List<Projet> listeProjet = can.getListeProjet();
+		List<JsonObject> listeProjetJSON = new ArrayList<>();
+		for (Projet pro : listeProjet) {
+
+			System.out.println("Passage dans la liste de Projets.");
+			JsonObject projetJSON = pc.projetToJSON(pro);
+			listeProjetJSON.add(projetJSON);
+		}
+
+//		List<Test> listeTest = can.getListeTest();
+//		List<JsonObject> listeTestJSON = new ArrayList<>();
+//		for (Test test : listeTest) {
+//			JsonObject testJSON = tc.testToJson(test);
+//			listeTestJSON.add(testJSON);
+//		}
+
+		List<Notes> listeNotes = can.getListeNotes();
+		List<JsonObject> listeNotesJSON = new ArrayList<>();
+		for (Notes notes : listeNotes) {
+			System.out.println("Passage dans la liste de notes.");
+			JsonObject notesJSON = nc.notesToJSON(notes);
+			listeNotesJSON.add(notesJSON);
+		}
+
+		candidatJSON.put("listeCV", listeCVJSON);
+		candidatJSON.put("listeProjet", listeProjetJSON);
+//		candidatJSON.put("listeTest", listeTestJSON);
+		candidatJSON.put("listeNotes", listeNotesJSON);
 //		String output = candidatJSON.toJson().toString();
 //		System.out.println(candidatJSON);
 		return candidatJSON;
 	}
+
 	public Candidat promptCandidat() {
 		List<Candidat> listeCA = this.getCandidats();
 		int nouvelID = listeCA.size() + 1;
@@ -174,32 +209,73 @@ public class CandidatController {
 		System.out.println("Rentrez le prenom de votre Candidat svp");
 		String pren = scan.nextLine();
 
-//		System.out.println("Quel est votre identifiant de candidat svp ?");
-//		int idC = scan.nextInt();
-		
-//		List<String> listeCV = new ArrayList<>();
-//		System.out.println("Souhaitez-vous ajouter un CV à ce candidat ? 1 pour oui, autre pour non.");
-//		int selCV = scan.nextInt();
+		List<CV> listeCV = new ArrayList<>();
+		System.out.println("Souhaitez-vous ajouter un CV à ce candidat ? 1 pour oui, autre pour non.");
+		int selCV = scan.nextInt();
+		if (selCV == 1) {
+			do {
+				System.out.println("Quel est l'identifiant du CV en question ?");
+				int idCV = scan.nextInt();
+				CV cv = icvr.findById(idCV).get();
+				listeCV.add(cv);
+
+				System.out.println("Souhaitez-vous ajouter un autre CV à ce candidat ? 1 pour oui, autre pour non.");
+				selCV = scan.nextInt();
+			} while (selCV == 1);
+		}
+
+		List<Projet> listeProjets = new ArrayList<>();
+		System.out.println("Souhaitez-vous ajouter un projet à ce candidat ? 1 pour oui, autre pour non.");
+		int selPro = scan.nextInt();
+		if (selPro == 1) {
+			do {
+				System.out.println("Quel est l'identifiant du projet en question ?");
+				int idP = scan.nextInt();
+				Projet pro = ipr.findById(idP).get();
+				listeProjets.add(pro);
+
+				System.out
+						.println("Souhaitez-vous ajouter un autre projet à ce candidat ? 1 pour oui, autre pour non.");
+				selPro = scan.nextInt();
+			} while (selPro == 1);
+		}
+
+//		List<Test> listeTests = new ArrayList<>();
+//		System.out.println("Souhaitez-vous ajouter un test à ce candidat ? 1 pour oui, autre pour non.");
+//		int selTest = scan.nextInt();
 //		do {
-//			System.out.println("Quel est l'identifiant du CV en question ?");
-//			int idCV = scan.nextInt();
-//			CV cv = icvr.findById(idCV).get();
-//			listeCV.add(cc.CVToJSONString(cv));
-//			
-//			System.out.println("Souhaitez-vous ajouter un autre CV à ce candidat ? 1 pour oui, autre pour non.");
-//			selCV = scan.nextInt();
-//		} while(selCV == 1);
-		
-		
-		List<Projet> pro = pc.getProjets();
-		List<Test> test = tc.getTests();
-		List<Notes> no = nc.getNotess();
-		List<CV> cv = cc.getCVs();
-//		ublic Candidat(int id, String nom, String prenom, List<Projet> listeProjet, List<Test> listeTest, List<CV> listeCV,
-//				List<Notes> listeNotes2) {
-		Candidat ca = new Candidat(nouvelID, nom, pren, pro, test, cv, no);
-		
+//			System.out.println("Quel est l'identifiant du test en question ?");
+//			int idT = scan.nextInt();
+//			Test test = itr.findById(idT).get();
+//			listeTests.add(test);
+//
+//			System.out.println("Souhaitez-vous ajouter un autre test à ce candidat ? 1 pour oui, autre pour non.");
+//			selTest = scan.nextInt();
+//		} while (selTest == 1);
+
+		List<Notes> listeNotes = new ArrayList<>();
+		System.out.println("Souhaitez-vous ajouter une note à ce candidat ? 1 pour oui, autre pour non.");
+		int selNote = scan.nextInt();
+		if (selNote == 1) {
+			do {
+				System.out.println("Quel est l'identifiant de la note en question ?");
+				int idN = scan.nextInt();
+				Notes note = inr.findById(idN).get();
+				listeNotes.add(note);
+
+				System.out.println("Souhaitez-vous ajouter une autre note à ce candidat ? 1 pour oui, autre pour non.");
+				selNote = scan.nextInt();
+			} while (selNote == 1);
+		}
+
+		System.out.println(listeCV);
+		System.out.println(listeProjets);
+		System.out.println(listeNotes);
+
+		Candidat ca = new Candidat(nouvelID, nom, pren, listeProjets, listeCV, listeNotes);
+		System.out.println(ca.toString());
+
 		return ca;
 	}
-	
+
 }
