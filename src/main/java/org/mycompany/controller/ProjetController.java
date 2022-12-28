@@ -116,7 +116,7 @@ public class ProjetController {
 		proJSON.put("duree", pro.getDuree());
 		proJSON.put("tailleEquipe", pro.getTailleEquipe());
 		proJSON.put("entreprise", eco.entrepriseToJSON(pro.getEntreprise()));
-		proJSON.put("listeCandidats", new ArrayList<>());
+		proJSON.put("listeCandidats", pro.getListeCandidats());
 		String output = proJSON.toJson().toString();
 		return output;
 	}
@@ -129,7 +129,7 @@ public class ProjetController {
 		proJSON.put("duree", pro.getDuree());
 		proJSON.put("tailleEquipe", pro.getTailleEquipe());
 		proJSON.put("entreprise", eco.entrepriseToJSON(pro.getEntreprise()));
-		proJSON.put("listeCandidats", new ArrayList<>());
+		proJSON.put("listeCandidats", pro.getListeCandidats());
 		return proJSON;
 	}
 

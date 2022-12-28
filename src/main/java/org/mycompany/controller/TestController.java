@@ -109,8 +109,8 @@ public class TestController {
 		tJSON.put("id", test.getId());
 		tJSON.put("sujet", test.getSujet());
 		tJSON.put("valide", test.getValide());
-		tJSON.put("listeCandidats", new ArrayList<>());
-		tJSON.put("listeEntreprises", new ArrayList<>());
+		tJSON.put("listeCandidats", test.getListeCandidats());
+		tJSON.put("listeEntreprises", test.getListeEntreprises());
 		String output = tJSON.toJson().toString();
 		return output;
 	}
@@ -120,8 +120,8 @@ public class TestController {
 		tJSON.put("id", test.getId());
 		tJSON.put("sujet", test.getSujet());
 		tJSON.put("valide", test.getValide());
-		tJSON.put("listeCandidats", new ArrayList<>());
-		tJSON.put("listeEntreprises", new ArrayList<>());
+		tJSON.put("listeCandidats", test.getListeCandidats());
+		tJSON.put("listeEntreprises", test.getListeEntreprises());
 		return tJSON;
 	}
 

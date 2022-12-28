@@ -109,9 +109,9 @@ public class EntrepriseController {
 		entJSON.put("capital", ent.getCapital());
 		entJSON.put("moyNotes", ent.getMoyNotes());
 		entJSON.put("taille", ent.getTaille());
-		entJSON.put("listeNotesEntreprise", new ArrayList<>());
-		entJSON.put("listeProjets", new ArrayList<>());
-		entJSON.put("listeTests", new ArrayList<>());
+		entJSON.put("listeNotesEntreprise", ent.getListeNotesEntreprise());
+		entJSON.put("listeProjets", ent.getListeProjets());
+		entJSON.put("listeTests", ent.getListeTests());
 		String output = entJSON.toJson().toString();
 		return output;
 	}
@@ -122,10 +122,10 @@ public class EntrepriseController {
 		entJSON.put("nom", ent.getNom());
 		entJSON.put("capital", ent.getCapital());
 		entJSON.put("moyNotes", ent.getMoyNotes());
-		entJSON.put("listeNotesEntreprise", new ArrayList<>());
+		entJSON.put("listeNotesEntreprise", ent.getListeNotesEntreprise());
 		entJSON.put("taille", ent.getTaille());
-		entJSON.put("listeProjets", new ArrayList<>());
-		entJSON.put("listeTests", new ArrayList<>());
+		entJSON.put("listeProjets", ent.getListeProjets());
+		entJSON.put("listeTests", ent.getListeTests());
 		return entJSON;
 	}
 
