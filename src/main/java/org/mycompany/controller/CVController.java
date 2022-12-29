@@ -125,20 +125,27 @@ public class CVController {
 		}
 	}
 
+//	public JsonObject CVToJSON(CV cv) {
+//		JsonObject CVJSON = new JsonObject();
+//		CVJSON.put("id", cv.getId());
+//		CVJSON.put("description", cv.getDescription());
+//		CVJSON.put("candidat", cco.candidatToJSON(cv.getCandidat()));
+//		return CVJSON;
+//	}
+	
 	public JsonObject CVToJSON(CV cv) {
 		JsonObject CVJSON = new JsonObject();
 		CVJSON.put("id", cv.getId());
 		CVJSON.put("description", cv.getDescription());
-		CVJSON.put("candidat", cco.candidatToJSON(cv.getCandidat()));
+		CVJSON.put("candidat", cv.getCandidat().getId());
 		return CVJSON;
-
 	}
 
 	public String CVToJSONString(CV cv) {
 		JsonObject CVJSON = new JsonObject();
 		CVJSON.put("id", cv.getId());
 		CVJSON.put("description", cv.getDescription());
-		CVJSON.put("candidat", cco.candidatToJSON(cv.getCandidat()));
+		CVJSON.put("candidat", null);
 		return CVJSON.toJson().toString();
 
 	}

@@ -158,7 +158,7 @@ public class CandidatController {
 		candidatJSON.put("prenom", can.getPrenom());
 		candidatJSON.put("moyNotes", can.getMoyNotes());
 
-		List<CV> listeCV = can.getListeCV();
+		List<CV> listeCV = new ArrayList<>();
 		List<JsonObject> listeCVJSON = new ArrayList<>();
 		for (CV cv : listeCV) {
 
@@ -280,6 +280,7 @@ public class CandidatController {
 		Candidat ca = new Candidat(nouvelID, nom, pren, listeProjets, listeCV, listeNotes);
 //		System.out.println(ca.toString());
 		icr.save(ca);
+		System.out.println("L'identifiant du candidat nouvellement créé est " + nouvelID);
 		return ca;
 	}
 

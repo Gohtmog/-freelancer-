@@ -136,11 +136,19 @@ public class NotesEntrepriseController {
 		return output;
 	}
 
+//	public JsonObject notesEntrepriseToJSON(NotesEntreprise n) {
+//		JsonObject nj = new JsonObject();
+//		nj.put("id", n.getId());
+//		nj.put("note", n.getNote());
+//		nj.put("entreprise", eco.entrepriseToJSON(n.getEntreprise()));
+//		return nj;
+//	}
+	
 	public JsonObject notesEntrepriseToJSON(NotesEntreprise n) {
 		JsonObject nj = new JsonObject();
 		nj.put("id", n.getId());
 		nj.put("note", n.getNote());
-		nj.put("entreprise", eco.entrepriseToJSON(n.getEntreprise()));
+		nj.put("entreprise", null);
 		return nj;
 	}
 	

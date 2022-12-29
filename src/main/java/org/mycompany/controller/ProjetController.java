@@ -129,7 +129,7 @@ public class ProjetController {
 		proJSON.put("salaire", pro.getSalaire());
 		proJSON.put("duree", pro.getDuree());
 		proJSON.put("tailleEquipe", pro.getTailleEquipe());
-		proJSON.put("entreprise", eco.entrepriseToJSON(pro.getEntreprise()));
+		proJSON.put("entreprise", null);
 		proJSON.put("listeCandidats", new ArrayList<>());
 		return proJSON;
 	}

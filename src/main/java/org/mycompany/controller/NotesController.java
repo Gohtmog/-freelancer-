@@ -132,11 +132,19 @@ public class NotesController {
 		return output;
 	}
 
+//	public JsonObject notesToJSON(Notes n) {
+//		JsonObject nj = new JsonObject();
+//		nj.put("id", n.getId());
+//		nj.put("note", n.getNote());
+//		nj.put("candidat", cco.candidatToJSON(n.getCandidat()));
+//		return nj;
+//	}
+	
 	public JsonObject notesToJSON(Notes n) {
 		JsonObject nj = new JsonObject();
 		nj.put("id", n.getId());
 		nj.put("note", n.getNote());
-		nj.put("candidat", cco.candidatToJSON(n.getCandidat()));
+		nj.put("candidat", null);
 		return nj;
 	}
 	public Notes promptNotes() {

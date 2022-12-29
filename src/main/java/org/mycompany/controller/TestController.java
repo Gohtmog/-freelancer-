@@ -123,8 +123,8 @@ public class TestController {
 		tJSON.put("id", test.getId());
 		tJSON.put("sujet", test.getSujet());
 		tJSON.put("valide", test.getValide());
-		tJSON.put("candidat", cco.candidatToJSON(test.getCandidat()));
-		tJSON.put("entreprise", eco.entrepriseToJSON(test.getEntreprise()));
+		tJSON.put("candidat", null);
+		tJSON.put("entreprise", null);
 		return tJSON;
 	}
 
