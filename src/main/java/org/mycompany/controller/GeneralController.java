@@ -38,6 +38,7 @@ public class GeneralController {
 	@Autowired
 	ITestRepository itr;
 
+	
 	public void lienProjetCandidat(Projet pro, Candidat candidat) {
 		List<Projet> lP = candidat.getListeProjet();
 		List<Candidat> lC = pro.getListeCandidats();

@@ -24,7 +24,7 @@ public class Notes {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "idCandidat")
-	private Candidat Candidat;
+	private Candidat candidat;
 
 	
 	
@@ -37,7 +37,7 @@ public class Notes {
 		super();
 		this.id = id;
 		this.note = note;
-		this.Candidat = Candidat;
+		this.candidat = Candidat;
 	}
 
 	public int getId() {
@@ -57,16 +57,16 @@ public class Notes {
 	}
 
 	public Candidat getCandidat() {
-		return Candidat;
+		return candidat;
 	}
 
 	public void setCandidat(Candidat Candidat) {
-		this.Candidat = Candidat;
+		this.candidat = Candidat;
 	}
 
 	
 	@Override
 	public String toString() {
-		return "Notes [id=" + id + ", note=" + note + ", Candidat=" + Candidat + "]";
+		return "Notes [id=" + id + ", note=" + note + ", Candidat=" + candidat + "]";
 	}
 }

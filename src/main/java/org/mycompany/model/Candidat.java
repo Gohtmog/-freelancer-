@@ -33,11 +33,11 @@ public class Candidat {
 	@JoinTable(name = "T_Projet_Candidat_Associations", joinColumns = @JoinColumn(name = "idProjet"), inverseJoinColumns = @JoinColumn(name = "idCandidat"))
 	private List<Projet> listeProjets;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "candidat")
 //	@JoinColumn(name = "idCV")
 	private List<CV> listeCV;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL , mappedBy = "candidat")
 //	@JoinColumn(name = "idNotes")
 	private List<Notes> listeNotes;
 

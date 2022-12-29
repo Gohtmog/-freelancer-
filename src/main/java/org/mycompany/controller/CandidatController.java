@@ -172,6 +172,7 @@ public class CandidatController {
 		for (Projet pro : listeProjet) {
 
 			System.out.println("Passage dans la liste de Projets.");
+			System.out.println(pro.toString());
 			JsonObject projetJSON = pc.projetToJSON(pro);
 			listeProjetJSON.add(projetJSON);
 		}
@@ -268,13 +269,16 @@ public class CandidatController {
 //			} while (selNote == 1);
 //		}
 		
-		System.out.println("test");
+//		System.out.println("test");
 //		System.out.println(listeCV);
 //		System.out.println(listeProjets);
 //		System.out.println(listeNotes);
+		
 
+
+//		listeProjets.add(pro);
 		Candidat ca = new Candidat(nouvelID, nom, pren, listeProjets, listeCV, listeNotes);
-		System.out.println(ca.toString());
+//		System.out.println(ca.toString());
 		icr.save(ca);
 		return ca;
 	}

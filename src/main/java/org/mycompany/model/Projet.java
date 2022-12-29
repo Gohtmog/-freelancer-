@@ -121,8 +121,7 @@ public class Projet {
 	@Override
 	public String toString() {
 		return "Projet [id=" + id + ", intitule=" + intitule + ", salaire=" + salaire + ", duree=" + duree
-				+ ", tailleEquipe=" + tailleEquipe + ", entreprise=" + entreprise + ", listeCandidats=" + listeCandidats
-				+ "]";
+				+ ", tailleEquipe=" + tailleEquipe + ", entreprise=" + entreprise.toString() + "]";
 	}
 
 }
